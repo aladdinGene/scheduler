@@ -83,7 +83,7 @@ html, body{
     display: block;
 }
 
-.dhx_title{
+.event-dialog .dhx_title{
     padding: 0 0 0 13px;
     font-size: 14px;
     text-transform: uppercase;
@@ -186,3 +186,87 @@ html, body{
         display: block;
     }
 }*/
+
+
+
+
+
+
+
+
+#venue-modal{
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: #FFF;
+    z-index: 9;
+    padding: 20px;
+}
+
+.close-venue-modal{
+    position: absolute;
+    right: 30px;
+    top: 20px;
+    font-size: 30px;
+    cursor: pointer;
+    line-height: 1;
+    font-family: Roboto,Arial;
+}
+
+#venue-modal select{
+    border-radius: 2px;
+    margin: 0 0 16px 4px;
+    height: 32px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    position: relative;
+}
+
+#venue-modal select.dhx_lightbox_time_select {
+    width: 102px;
+    box-sizing: border-box;
+    padding: 0 0 0 34px!important;
+    background: url(time.svg) no-repeat 8px 5px,url(menu-down.svg) no-repeat 100% 3px;
+}
+
+#venue-modal select.dhx_lightbox_day_select {
+    min-width: 46px!important;
+    background: url(menu-down.svg) no-repeat 100% 3px;
+    box-sizing: border-box;
+    padding-left: 4px;
+}
+
+#venue-modal select.dhx_lightbox_month_select {
+    width: 98px!important;
+    background: url(menu-down.svg) no-repeat 100% 3px;
+    padding-left: 4px;
+}
+
+#venue-modal select.dhx_lightbox_year_select {
+    min-width: 58px!important;
+    max-width: 58px!important;
+    padding-left: 3px!important;
+    background: url(menu-down.svg) no-repeat 100% 3px;
+    padding-left: 4px;
+}
+
+#number-participants{
+    width: 100px;
+    height: 30px;
+    margin: 10px 5px 10px 0;
+    padding-left: 4px;
+    font-size: 14px;
+}
+
+#search-venue-btn{
+    font-size: 18px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+#zoom-wrap{
+    display: none;
+}

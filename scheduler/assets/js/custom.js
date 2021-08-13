@@ -110,52 +110,6 @@ window.addEventListener("DOMContentLoaded", function(){
     scheduler.attachEvent("onBeforeViewChange", resetConfig);
     scheduler.attachEvent("onSchedulerResize", resetConfig);
 
-
-    // demo data
-    var alert_opts = [
-        { key: 1, label: 'None' },
-        { key: 2, label: 'On start date' },
-        { key: 3, label: '1 day before' }
-    ];
-
-    var users = [
-        { key: 1, label: 'George' },
-        { key: 2, label: 'Nataly' },
-        { key: 3, label: 'Diana' }
-    ];
-
-    var meeting_type = [
-        { key: 1, label: 'Meeting' },
-        { key: 2, label: 'Teleconference' },
-        { key: 3, label: 'Web Conference' },
-        { key: 4, label: 'Video Conference' },
-        { key: 5, label: 'Visit' },
-        { key: 6, label: 'High Level' }
-    ];
-
-    scheduler.locale.labels.section_text = 'Title';
-    scheduler.locale.labels.section_time = 'Time';
-    scheduler.locale.labels.section_meeting_type = '*Meeting Type';
-    scheduler.locale.labels.section_primary_client = '*Primary Client';
-    scheduler.locale.labels.section_description = 'Description';
-    scheduler.locale.labels.section_select = 'Alert';
-    scheduler.locale.labels.section_template = 'Details';
-    scheduler.locale.labels.section_userselect = "Participants";
-    scheduler.locale.labels.section_fruitselect = "Fruits";
-    scheduler.locale.labels.section_checkme = "Check me";
-    scheduler.locale.labels.section_priority = 'Priority';
-
-    scheduler.config.lightbox.sections=[
-        { name:"text", height:35, map_to:"text", type:"textarea" , focus:true },
-        { name:"userselect", height: 35, map_to:"user_id", type:"multiselect", options: users, vertical:false },
-        { name:"primary_client", height:35, map_to:"primary_client", type:"textarea"  },
-        { name:"meeting_type", height: "auto", map_to:"meeting_type", type:"multiselect", options: meeting_type, vertical:false },
-        { name:"select", height:35, map_to:"type", type:"select", options:alert_opts},
-        { name:"description", height:120, map_to:"description", type:"textarea" , focus:true },
-        { name:"recurring", height:115, type:"recurring", map_to:"rec_type", button:"recurring"},
-        { name:"time", height:40, type:"time", map_to:"auto" },
-    ];
-
     var custom_form = document.getElementById("custom_form");
 
     scheduler.showLightbox = function(id){
@@ -176,15 +130,16 @@ window.addEventListener("DOMContentLoaded", function(){
         scheduler.endLightbox(false, custom_form);
     }
 
+    // When click event
     scheduler.attachEvent("onClick", function (id, e){
        //any custom logic here
-       console.log(id, e)
        return true;
     });
 
+    // When Quick info dialogue is opened.
     scheduler.templates.quick_info_content = function(start, end, ev){
-        console.log(start, end, ev)
-       return ev.details || ev.text;
+        // console.log(start, end, ev)
+        return ev.details || ev.text;
     };
 
     scheduler.init('scheduler_here',new Date(2018,0,1),"week");
@@ -200,6 +155,10 @@ window.addEventListener("DOMContentLoaded", function(){
 
 
 $(document).ready(function(){
+    $("#event-start-time").append($(select_time_ele))
+    $("#event-end-time").append($(select_time_ele))
+    $("#venue-start-time").append($(select_time_ele))
+    $("#venue-end-time").append($(select_time_ele))
     $("#recurrence-btn").on('click', function(){
         var disabled = $(this).attr("data-disabled")
         if(disabled == "true") {
@@ -216,7 +175,45 @@ $(document).ready(function(){
         }
     })
 
+    $("#zoom-btn").on('click', function(){
+        var disabled = $(this).attr("data-disabled")
+        if(disabled == "true") {
+            $("#zoom-wrap").slideDown()
+            $(this).text("Enabled")
+            $(this).attr("data-disabled", "false")
+        } else {
+            $("#zoom-wrap").slideUp()
+            $(this).text("Disabled")
+            $(this).attr("data-disabled", "true")
+        }
+    })
+
     $('.dhx_save_btn_set').on('click', () => {
+        var start_time_ele = $("#event-start-time")
+        var start_time_year = start_time_ele.find("select.dhx_lightbox_year_select").val()
+        var start_time_month = start_time_ele.find("select.dhx_lightbox_month_select").val() + 1
+        var start_time_day = start_time_ele.find("select.dhx_lightbox_day_select").val()
+        var start_time_time = start_time_ele.find("select.dhx_lightbox_time_select").val()
+
+        var end_time_ele = $("#event-end-time")
+        var end_time_year = end_time_ele.find("select.dhx_lightbox_year_select").val()
+        var end_time_month = end_time_ele.find("select.dhx_lightbox_month_select").val() + 1
+        var end_time_day = end_time_ele.find("select.dhx_lightbox_day_select").val()
+        var end_time_time = end_time_ele.find("select.dhx_lightbox_time_select").val()
+
+        var start_time = `${start_time_day}-${start_time_month}-${start_time_year} ${start_time_time}`
+        var end_time = `${end_time_day}-${end_time_month}-${end_time_year} ${end_time_time}`
+
+        var text = $("#event-title").val()
+        var details = $("#event-desc").val()
+
+        var event = {
+            start_date: start_time,
+            end_date:   end_time,
+            text,
+            details
+        }
+        var eventId = scheduler.addEvent(event);
         save_form()
         // close_form()
     })
@@ -227,5 +224,9 @@ $(document).ready(function(){
 
     $('.dhx_cancel_btn_set').on('click', () => {
         close_form()
+    })
+
+    $('.close-venue-modal').on('click', () => {
+        $('#venue-modal').fadeOut()
     })
 })
