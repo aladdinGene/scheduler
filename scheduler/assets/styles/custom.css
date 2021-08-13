@@ -1,0 +1,188 @@
+html, body{
+    margin:0px;
+    padding:0px;
+    height:100%;
+}
+
+.add_event_button{
+    position: absolute;
+    width: 55px;
+    height: 55px;
+    background: #ff5722;
+    border-radius: 50px;
+    bottom: 40px;
+    right: 55px;
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,0.3);
+    z-index: 5;
+    cursor:pointer;
+}
+.add_event_button:after{
+    background: #000;
+    border-radius: 2px;
+    color: #FFF;
+    content: attr(data-tooltip);
+    margin: 16px 0 0 -137px;
+    opacity: 0;
+    padding: 4px 9px;
+    position: absolute;
+    visibility: visible;
+    font-family: "Roboto";
+    font-size: 14px;
+    visibility: hidden;
+    transition: all .5s ease-in-out;
+}
+.add_event_button:hover{
+    background: #ff774c;
+}
+.add_event_button:hover:after{
+    opacity: 0.55;
+    visibility: visible;
+}
+.add_event_button span:before{
+    content:"";
+    background: #fff;
+    height: 16px;
+    width: 2px;
+    position: absolute;
+    left: 26px;
+    top: 20px;
+}
+.add_event_button span:after{
+    content:"";
+    height: 2px;
+    width: 16px;
+    background: #fff;
+    position: absolute;
+    left: 19px;
+    top: 27px;
+}
+
+.event-dialog{
+    position: absolute;
+    top: 30px !important;
+    left: 50% !important;
+    transform: translateX(-50%);
+    z-index: 0;
+    display: none;
+    -webkit-tap-highlight-color: transparent;
+    background-color: #fff;
+    border-radius: 2px;
+    border: 0 solid transparent;
+    color: #2e2e2e;
+    font-family: Roboto,Arial;
+    font-size: 14px;
+    box-shadow: none;
+    position: absolute;
+    width: 600px;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+.dhx_cal_overflow_container .event-dialog{
+    z-index: 15;
+    display: block;
+}
+
+.dhx_title{
+    padding: 0 0 0 13px;
+    font-size: 14px;
+    text-transform: uppercase;
+    color: #fff;
+    display: inline-block;
+    margin: 0;
+}
+
+.dhx_cal_larea{
+    padding: 10px 0;
+}
+
+.dhx_wrap_section{
+    display: flex;
+    padding: 5px;
+}
+
+.dhx_cal_lsection{
+    width: 110px;
+    text-align: right;
+    font-size: 14px;
+    padding-right: 10px;
+}
+
+.dhx_cal_ltext, .dhx_multi_select_control{
+    flex: 1;
+    padding: 0 15px;
+    margin-left: 0;
+}
+
+.dhx_cal_ltext>select{
+    width: 100%;
+    box-sizing: border-box;
+    height: 32px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background: url(menu-down.svg) no-repeat 100% 3px;
+    border: 1px solid rgba(0,0,0,.08);
+    font-family: Roboto,Arial;
+    font-size: 14px;
+    color: rgba(0,0,0,.8);
+    padding: 2px 2px 2px 8px;
+    margin: 0 8px 16px 0;
+}
+
+.event-dialog .combo>div, .event-dialog input, .event-dialog select, .event-dialog textarea{
+    border-radius: 2px;
+}
+
+.dhx_cal_ltitle{
+    margin-bottom: 0;
+    cursor: default;
+}
+
+.justify-space{
+    justify-content: space-between;
+}
+
+.d-none{
+    display: none;
+}
+
+.dhx_form_repeat {
+    margin: 30px 0 0 140px;
+}
+
+.dhx_section_time select.dhx_lightbox_day_select{
+    width: 46px;
+    margin-left: 8px;
+}
+
+@media only screen and (max-width: 1000px){
+    .add_event_button{
+        bottom: 5vw;
+        right: 5vw;
+    }
+}
+
+@media only screen and (min-width: 650px){
+    .d-flex-650{
+        display: flex;
+    }
+}
+
+@media only screen and (max-width: 650px){
+    .event-dialog{
+        width: calc(100% - 30px);
+    }
+}
+
+@media only screen and (max-width: 500px){
+    .dhx_multi_select_control label{
+        display: block;
+    }
+}
+
+/*@media only screen and (max-width: 400px){
+    .dhx_wrap_section{
+        display: block;
+    }
+}*/
