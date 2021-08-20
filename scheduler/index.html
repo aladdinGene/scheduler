@@ -3,7 +3,7 @@
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Responsive scheduler</title>
+    <title>Scheduler</title>
 
     <script src="./codebase/dhtmlxscheduler.js?v=5.3.11" charset="utf-8"></script>
     <script src="./codebase/ext/dhtmlxscheduler_multiselect.js?v=5.3.11"></script>  
@@ -14,6 +14,9 @@
 
     <!-- Quick info extension -->
     <script src="./codebase/ext/dhtmlxscheduler_quick_info.js?v=5.3.11" charset="utf-8"></script>
+    <script type="text/javascript" src="../codebase/suite.js?v=7.2.0"></script>
+    <link rel="stylesheet" href="../codebase/suite.css?v=7.2.0">
+    <link rel="stylesheet" href="assets/styles/calendar-custom.css" type="text/css" charset="utf-8">
     <link rel="stylesheet" href="assets/styles/custom.css" type="text/css" charset="utf-8">
 </head>
 
@@ -26,172 +29,199 @@
             <span class="dhx_mark">&nbsp;</span>
             <span class="dhx_title">New event</span>
         </div>
-        <div class="dhx_cal_larea">
-            <div class="dhx_wrap_section">
-                <div id="area_1628855616293" class="dhx_cal_lsection">
-                    <label for="input_1628855616301">Title</label>
-                </div>
-                <div class="dhx_cal_ltext" style="height:35px;">
-                    <textarea id="event-title"></textarea>
-                </div>
-            </div>
-            <div class="dhx_wrap_section">
-                <div id="area_1628855616294" class="dhx_cal_lsection">
-                    <label for="input_1628855616302">Participants</label>
-                </div>
-                <div class="dhx_cal_ltext" style="height: 35px;">
-                    <select style="width:100%;">
-                        <option value="1">None</option>
-                        <option value="2">Participant 1</option>
-                        <option value="3">Participant 2</option>
-                        <option value="3">Participant 3</option>
-                    </select>
-                </div>
-            </div>
-            <div class="dhx_wrap_section">
-                <div id="area_1628855616295" class="dhx_cal_lsection">
-                    <label for="input_1628855616303">*Primary Client</label>
-                </div>
-                <div class="dhx_cal_ltext" style="height:35px;">
-                    <textarea id="input_1628855616303"></textarea>
-                </div>
-            </div>
-            <div class="dhx_wrap_section">
-                <div id="area_1628855616296" class="dhx_cal_lsection">
-                    <label for="input_1628855616304">*Meeting Type</label>
-                </div>
-                <div class="dhx_multi_select_control dhx_multi_select_meeting_type" style="overflow: auto; height: autopx; position: relative;">
-                    <label>
-                        <input type="checkbox" value="1" id="input_1628855616304">Meeting </label>
-                    <label>
-                        <input type="checkbox" value="2">Teleconference </label>
-                    <label>
-                        <input type="checkbox" value="3">Web Conference </label>
-                    <label>
-                        <input type="checkbox" value="4">Video Conference </label>
-                    <label>
-                        <input type="checkbox" value="5">Visit </label>
-                    <label>
-                        <input type="checkbox" value="6">High Level </label>
-                </div>
-            </div>
-            <div class="dhx_wrap_section">
-                <div id="area_1628855616298" class="dhx_cal_lsection">
-                    <label for="input_1628855616306">Description</label>
-                </div>
-                <div class="dhx_cal_ltext" style="height:80px;">
-                    <textarea id="event-desc" spellcheck="false"></textarea>
-                </div>
-            </div>
-            <div class="dhx_wrap_section justify-space">
-                <div id="area_1628855616298" class="dhx_cal_lsection">
-                    <label for="input_1628855616306">Repeat event</label>
-                </div>
-                <div class="dhx_cal_lsection">
-                    <div role="button" aria-label="Disabled" tabindex="0" class="dhx_custom_button" index="6">
-                        <div class="dhx_custom_button_recurring" style="background-position: -5px 20px;"></div>
-                        <div id="recurrence-btn" data-disabled="true">Disabled</div>
+        <form id="lightbox-form">
+            <div class="dhx_cal_larea">
+                <div class="dhx_wrap_section">
+                    <div class="dhx_cal_lsection">
+                        <label>Title</label>
+                    </div>
+                    <div class="dhx_cal_ltext" style="height:35px;">
+                        <textarea id="event-title"></textarea>
                     </div>
                 </div>
-            </div>
-            <div class="dhx_wrap_section d-none" id="recurrence-wrap">
-                <div class="dhx_form_repeat">
-                    <form>
-                        <div class="dhx_repeat_left">
-                            <label>
-                                <input class="dhx_repeat_radio" type="radio" name="repeat" value="day" id="input_1628855616307">Daily </label>
-                            <br>
-                            <label>
-                                <input class="dhx_repeat_radio" type="radio" name="repeat" value="week">Weekly </label>
-                            <br>
-                            <label>
-                                <input class="dhx_repeat_radio" type="radio" name="repeat" value="month" checked="">Monthly </label>
-                            <br>
-                            <label>
-                                <input class="dhx_repeat_radio" type="radio" name="repeat" value="year">Yearly </label>
+                <div class="dhx_wrap_section">
+                    <div class="dhx_cal_lsection">
+                        <label>Participants</label>
+                    </div>
+                    <div class="dhx_cal_ltext" style="height: 35px;">
+                        <select style="width:100%;">
+                            <option value="1">None</option>
+                            <option value="2">Participant 1</option>
+                            <option value="3">Participant 2</option>
+                            <option value="3">Participant 3</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="dhx_wrap_section">
+                    <div class="dhx_cal_lsection">
+                        <label>*Primary Client</label>
+                    </div>
+                    <div class="dhx_cal_ltext" style="height:35px;">
+                        <textarea id="input_1628855616303"></textarea>
+                    </div>
+                </div>
+                <div class="dhx_wrap_section">
+                    <div class="dhx_cal_lsection">
+                        <label>*Meeting Type</label>
+                    </div>
+                    <div class="dhx_multi_select_control dhx_multi_select_meeting_type" style="overflow: auto; height: autopx; position: relative;">
+                        <label>
+                            <input type="checkbox" value="1" id="input_1628855616304">Meeting </label>
+                        <label>
+                            <input type="checkbox" value="2">Teleconference </label>
+                        <label>
+                            <input type="checkbox" value="3">Web Conference </label>
+                        <label>
+                            <input type="checkbox" value="4">Video Conference </label>
+                        <label>
+                            <input type="checkbox" value="5">Visit </label>
+                        <label>
+                            <input type="checkbox" value="6">High Level </label>
+                    </div>
+                </div>
+                <div class="dhx_wrap_section">
+                    <div class="dhx_cal_lsection">
+                        <label>Description</label>
+                    </div>
+                    <div class="dhx_cal_ltext" style="height:80px;">
+                        <textarea id="event-desc" spellcheck="false"></textarea>
+                    </div>
+                </div>
+                <div class="dhx_wrap_section justify-space">
+                    <div class="dhx_cal_lsection">
+                        <label>Repeat event</label>
+                    </div>
+                    <div class="dhx_cal_lsection">
+                        <div role="button" aria-label="Disabled" tabindex="0" class="dhx_custom_button" index="6">
+                            <div class="dhx_custom_button_recurring" style="background-position: -5px 20px;"></div>
+                            <div id="recurrence-btn" data-disabled="true">Disabled</div>
                         </div>
-                        <div class="dhx_repeat_divider"></div>
-                        <div class="dhx_repeat_center">
-                            <div style="display:none;" id="dhx_repeat_day">
+                    </div>
+                </div>
+                <div class="dhx_wrap_section d-none" id="recurrence-wrap">
+                    <div class="dhx_form_repeat">
+                        <form>
+                            <div class="dhx_repeat_left">
                                 <label>
-                                    <input class="dhx_repeat_radio" type="radio" name="day_type" value="d">Every </label>
-                                <label>
-                                    <input class="dhx_repeat_text" type="text" name="day_count" value="1">day </label>
+                                    <input class="dhx_repeat_radio" type="radio" name="repeat" value="day" id="dhx-daily-radio" data-target="#dhx_repeat_day" checked>Daily </label>
                                 <br>
                                 <label>
-                                    <input class="dhx_repeat_radio" type="radio" name="day_type" checked="" value="w">Every workday </label>
+                                    <input class="dhx_repeat_radio" type="radio" name="repeat" value="week" id="dhx-weekly-radio" data-target="#dhx_repeat_week">Weekly </label>
+                                <br>
+                                <label>
+                                    <input class="dhx_repeat_radio" type="radio" name="repeat" value="month" id="dhx-monthly-radio" data-target="#dhx_repeat_month">Monthly </label>
+                                <br>
+                                <!-- <label>
+                                    <input class="dhx_repeat_radio" type="radio" name="repeat" value="year" id="dhx-yearly-radio" data-target="#dhx_repeat_year">Yearly </label> -->
                             </div>
-                            <div style="display:none;" id="dhx_repeat_week">
-                                <label> Repeat every <input class="dhx_repeat_text" type="text" name="week_count" value="1">
-                                </label>
-                                <span>week next days:</span>
-                                <br>
-                                <table class="dhx_repeat_days">
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <label>
-                                                    <input class="dhx_repeat_checkbox" type="checkbox" name="week_day" value="1">Monday </label>
-                                                <br>
-                                                <label>
-                                                    <input class="dhx_repeat_checkbox" type="checkbox" name="week_day" value="4">Thursday </label>
-                                            </td>
-                                            <td>
-                                                <label>
-                                                    <input class="dhx_repeat_checkbox" type="checkbox" name="week_day" value="2">Tuesday </label>
-                                                <br>
-                                                <label>
-                                                    <input class="dhx_repeat_checkbox" type="checkbox" name="week_day" value="5">Friday </label>
-                                            </td>
-                                            <td>
-                                                <label>
-                                                    <input class="dhx_repeat_checkbox" type="checkbox" name="week_day" value="3">Wednesday </label>
-                                                <br>
-                                                <label>
-                                                    <input class="dhx_repeat_checkbox" type="checkbox" name="week_day" value="6">Saturday </label>
-                                            </td>
-                                            <td>
-                                                <label>
-                                                    <input class="dhx_repeat_checkbox" type="checkbox" name="week_day" value="0">Sunday </label>
-                                                <br>
-                                                <br>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div id="dhx_repeat_month">
-                                <label class="dhx_repeat_month_label">
-                                    <input class="dhx_repeat_radio" type="radio" name="month_type" value="d">Repeat </label>
-                                <label>
-                                    <input class="dhx_repeat_text" type="text" name="month_day" value="1">day every </label>
-                                <label>
-                                    <input class="dhx_repeat_text" type="text" name="month_count" value="1">month </label>
-                                <br>
-                                <label class="dhx_repeat_month_label">
-                                    <input class="dhx_repeat_radio" type="radio" name="month_type" checked="" value="w">On </label>
-                                <input class="dhx_repeat_text" type="text" name="month_week2" value="1">
-                                <label>
-                                    <select name="month_day2">
+                            <div class="dhx_repeat_divider"></div>
+                            <div class="dhx_repeat_center">
+                                <div id="dhx_repeat_day">
+                                    <label>
+                                        <input class="dhx_repeat_radio" type="radio" name="day_type" value="d">Every </label>
+                                    <label>
+                                        <input class="dhx_repeat_text" type="text" name="day_count" value="1">day </label>
+                                    <br>
+                                    <label>
+                                        <input class="dhx_repeat_radio" type="radio" name="day_type" checked="" value="w">Every workday </label>
+                                </div>
+                                <div style="display:none;" id="dhx_repeat_week">
+                                    <label> Repeat every <input class="dhx_repeat_text" type="text" name="week_count" value="1">
+                                    </label>
+                                    <span>week next days:</span>
+                                    <br>
+                                    <table class="dhx_repeat_days">
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <label>
+                                                        <input class="dhx_repeat_checkbox" type="checkbox" name="week_day" value="1" checked="">Monday </label>
+                                                    <br>
+                                                    <label>
+                                                        <input class="dhx_repeat_checkbox" type="checkbox" name="week_day" value="4">Thursday </label>
+                                                </td>
+                                                <td>
+                                                    <label>
+                                                        <input class="dhx_repeat_checkbox" type="checkbox" name="week_day" value="2">Tuesday </label>
+                                                    <br>
+                                                    <label>
+                                                        <input class="dhx_repeat_checkbox" type="checkbox" name="week_day" value="5">Friday </label>
+                                                </td>
+                                                <td>
+                                                    <label>
+                                                        <input class="dhx_repeat_checkbox" type="checkbox" name="week_day" value="3">Wednesday </label>
+                                                    <br>
+                                                    <label>
+                                                        <input class="dhx_repeat_checkbox" type="checkbox" name="week_day" value="6">Saturday </label>
+                                                </td>
+                                                <td>
+                                                    <label>
+                                                        <input class="dhx_repeat_checkbox" type="checkbox" name="week_day" value="0">Sunday </label>
+                                                    <br>
+                                                    <br>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div style="display:none;" id="dhx_repeat_month">
+                                    <label class="dhx_repeat_month_label">
+                                        <input class="dhx_repeat_radio" type="radio" name="month_type" value="d">Repeat </label>
+                                    <label>
+                                        <input class="dhx_repeat_text" type="text" name="month_day" value="1">day every </label>
+                                    <label>
+                                        <input class="dhx_repeat_text" type="text" name="month_count" value="1">month </label>
+                                    <br>
+                                    <label class="dhx_repeat_month_label">
+                                        <input class="dhx_repeat_radio" type="radio" name="month_type" checked="" value="w">On </label>
+                                    <input class="dhx_repeat_text" type="text" name="month_week2" value="1">
+                                    <label>
+                                        <select name="month_day2">
+                                            <option value="1" selected="">Monday</option>
+                                            <option value="2">Tuesday</option>
+                                            <option value="3">Wednesday</option>
+                                            <option value="4">Thursday</option>
+                                            <option value="5">Friday</option>
+                                            <option value="6">Saturday</option>
+                                            <option value="0">Sunday</option>
+                                        </select>every </label>
+                                    <label>
+                                        <input class="dhx_repeat_text" type="text" name="month_count2" value="1">month </label>
+                                    <br>
+                                </div>
+                                <!-- <div style="display:none;" id="dhx_repeat_year">
+                                    <label class="dhx_repeat_year_label">
+                                        <input class="dhx_repeat_radio" type="radio" name="year_type" value="d">Every </label>
+                                    <label>
+                                        <input class="dhx_repeat_text" type="text" name="year_day" value="1">day </label>
+                                    <label>
+                                        <select name="year_month">
+                                            <option value="0" selected="">January</option>
+                                            <option value="1">February</option>
+                                            <option value="2">March</option>
+                                            <option value="3">April</option>
+                                            <option value="4">May</option>
+                                            <option value="5">June</option>
+                                            <option value="6">July</option>
+                                            <option value="7">August</option>
+                                            <option value="8">September</option>
+                                            <option value="9">October</option>
+                                            <option value="10">November</option>
+                                            <option value="11">December</option>
+                                        </select>month </label>
+                                    <br>
+                                    <label class="dhx_repeat_year_label">
+                                        <input class="dhx_repeat_radio" type="radio" name="year_type" checked="" value="w">On </label>
+                                    <input class="dhx_repeat_text" type="text" name="year_week2" value="1">
+                                    <select name="year_day2">
                                         <option value="1" selected="">Monday</option>
                                         <option value="2">Tuesday</option>
                                         <option value="3">Wednesday</option>
                                         <option value="4">Thursday</option>
                                         <option value="5">Friday</option>
                                         <option value="6">Saturday</option>
-                                        <option value="0">Sunday</option>
-                                    </select>every </label>
-                                <label>
-                                    <input class="dhx_repeat_text" type="text" name="month_count2" value="1">month </label>
-                                <br>
-                            </div>
-                            <div style="display:none;" id="dhx_repeat_year">
-                                <label class="dhx_repeat_year_label">
-                                    <input class="dhx_repeat_radio" type="radio" name="year_type" value="d">Every </label>
-                                <label>
-                                    <input class="dhx_repeat_text" type="text" name="year_day" value="1">day </label>
-                                <label>
-                                    <select name="year_month">
+                                        <option value="7">Sunday</option>
+                                    </select>of <select name="year_month2">
                                         <option value="0" selected="">January</option>
                                         <option value="1">February</option>
                                         <option value="2">March</option>
@@ -204,116 +234,104 @@
                                         <option value="9">October</option>
                                         <option value="10">November</option>
                                         <option value="11">December</option>
-                                    </select>month </label>
+                                    </select>
+                                    <br>
+                                </div> -->
+                            </div>
+                            <div class="dhx_repeat_divider"></div>
+                            <div class="dhx_repeat_right">
+                                <label>
+                                    <input class="dhx_repeat_radio" type="radio" name="end" checked="" value="no">No end date </label>
                                 <br>
-                                <label class="dhx_repeat_year_label">
-                                    <input class="dhx_repeat_radio" type="radio" name="year_type" checked="" value="w">On </label>
-                                <input class="dhx_repeat_text" type="text" name="year_week2" value="1">
-                                <select name="year_day2">
-                                    <option value="1" selected="">Monday</option>
-                                    <option value="2">Tuesday</option>
-                                    <option value="3">Wednesday</option>
-                                    <option value="4">Thursday</option>
-                                    <option value="5">Friday</option>
-                                    <option value="6">Saturday</option>
-                                    <option value="7">Sunday</option>
-                                </select>of <select name="year_month2">
-                                    <option value="0" selected="">January</option>
-                                    <option value="1">February</option>
-                                    <option value="2">March</option>
-                                    <option value="3">April</option>
-                                    <option value="4">May</option>
-                                    <option value="5">June</option>
-                                    <option value="6">July</option>
-                                    <option value="7">August</option>
-                                    <option value="8">September</option>
-                                    <option value="9">October</option>
-                                    <option value="10">November</option>
-                                    <option value="11">December</option>
-                                </select>
+                                <label>
+                                    <input class="dhx_repeat_radio" type="radio" name="end" value="num">After </label>
+                                <input class="dhx_repeat_text" type="text" name="occurences_count" value="1">occurrences <br>
+                                <label>
+                                    <input class="dhx_repeat_radio" type="radio" name="end" value="date">End by </label>
+                                <input class="dhx_repeat_date" type="text" name="re_date_of_end" placeholder="End Date" id="re_date_of_end" readonly>
                                 <br>
                             </div>
+                        </form>
+                    </div>
+                    <div style="clear:both"></div>
+                </div>
+                <div class="dhx_wrap_section">
+                    <div class="dhx_cal_lsection">
+                        <label>Start Time</label>
+                    </div>
+                    <div class="dhx_section_time dhx_cal_ltext">
+                        <div class="dhx_input__container">
+                            <div class="dhx_input__icon dxi dxi-calendar-today"></div>
+                            <input tabindex="0" type="text" class="dhx_input dhx_input--icon-padding dhx_input--focus" placeholder="Choose a date" id="lightbox-start-time-input" autocomplete="off" readonly="" aria-label="Date">
                         </div>
-                        <div class="dhx_repeat_divider"></div>
-                        <div class="dhx_repeat_right">
-                            <label>
-                                <input class="dhx_repeat_radio" type="radio" name="end" checked="">No end date </label>
-                            <br>
-                            <label>
-                                <input class="dhx_repeat_radio" type="radio" name="end">After </label>
-                            <input class="dhx_repeat_text" type="text" name="occurences_count" value="1">occurrences <br>
-                            <label>
-                                <input class="dhx_repeat_radio" type="radio" name="end">End by </label>
-                            <input class="dhx_repeat_date" type="text" name="date_of_end" value="">
-                            <br>
+                    </div>
+                </div>
+                <div class="dhx_wrap_section">
+                    <div class="dhx_cal_lsection">
+                        <label>End Time</label>
+                    </div>
+                    <div class="dhx_section_time dhx_cal_ltext">
+                        <div class="dhx_input__container">
+                            <div class="dhx_input__icon dxi dxi-calendar-today"></div>
+                            <input tabindex="0" type="text" class="dhx_input dhx_input--icon-padding dhx_input--focus" placeholder="Choose a date" id="lightbox-end-time-input" autocomplete="off" readonly="" aria-label="Date">
                         </div>
-                    </form>
-                </div>
-                <div style="clear:both"></div>
-            </div>
-            <div class="dhx_wrap_section">
-                <div id="area_1628855616300" class="dhx_cal_lsection">
-                    <label for="input_1628855616308">Time</label>
-                </div>
-                <div class="dhx_section_time dhx_cal_ltext" id="event-start-time">
-                    <div class="d-flex-650" id="event-start-time"></div>
-                    <div class="d-flex-650" id="event-end-time"></div>
-                </div>
-            </div>
-            <div class="dhx_wrap_section justify-space">
-                <div class="dhx_cal_lsection">
-                    <label for="">Zoom Meeting</label>
-                </div>
-                <div class="dhx_cal_lsection">
-                    <div role="button" aria-label="Disabled" tabindex="0" class="dhx_custom_button" index="6">
-                        <div class="dhx_custom_button_recurring" style="background-position: -5px 20px;"></div>
-                        <div id="zoom-btn" data-disabled="true">Disabled</div>
                     </div>
                 </div>
-            </div>
-            <div id="zoom-wrap">
-                <div class="dhx_wrap_section" >
+                <div class="dhx_wrap_section justify-space">
                     <div class="dhx_cal_lsection">
-                        <label for="">Id</label>
+                        <label for="">Zoom Meeting</label>
                     </div>
-                    <div class="dhx_cal_ltext" style="height: 32px;">
-                        <textarea></textarea>
+                    <div class="dhx_cal_lsection">
+                        <div role="button" aria-label="Disabled" tabindex="0" class="dhx_custom_button" index="6">
+                            <div class="dhx_custom_button_recurring" style="background-position: -5px 20px;"></div>
+                            <div id="zoom-btn" data-disabled="true">Disabled</div>
+                        </div>
                     </div>
                 </div>
-                <div class="dhx_wrap_section" >
-                    <div class="dhx_cal_lsection">
-                        <label for="">Link</label>
+                <div id="zoom-wrap">
+                    <div class="dhx_wrap_section" >
+                        <div class="dhx_cal_lsection">
+                            <label for="">Id</label>
+                        </div>
+                        <div class="dhx_cal_ltext" style="height: 32px;">
+                            <textarea></textarea>
+                        </div>
                     </div>
-                    <div class="dhx_cal_ltext" style="height: 32px;">
-                        <textarea></textarea>
+                    <div class="dhx_wrap_section" >
+                        <div class="dhx_cal_lsection">
+                            <label for="">Link</label>
+                        </div>
+                        <div class="dhx_cal_ltext" style="height: 32px;">
+                            <textarea></textarea>
+                        </div>
                     </div>
-                </div>
-                <div class="dhx_wrap_section" >
-                    <div class="dhx_cal_lsection">
-                        <label for="">Description</label>
+                    <div class="dhx_wrap_section" >
+                        <div class="dhx_cal_lsection">
+                            <label for="">Description</label>
+                        </div>
+                        <div class="dhx_cal_ltext" style="height: 60px;">
+                            <textarea></textarea>
+                        </div>
                     </div>
-                    <div class="dhx_cal_ltext" style="height: 60px;">
-                        <textarea></textarea>
+                    <div class="dhx_wrap_section" >
+                        <div class="dhx_cal_lsection">
+                            <label for="">Recording Link</label>
+                        </div>
+                        <div class="dhx_cal_ltext" style="height: 32px;">
+                            <textarea></textarea>
+                        </div>
                     </div>
-                </div>
-                <div class="dhx_wrap_section" >
-                    <div class="dhx_cal_lsection">
-                        <label for="">Recording Link</label>
-                    </div>
-                    <div class="dhx_cal_ltext" style="height: 32px;">
-                        <textarea></textarea>
-                    </div>
-                </div>
-                <div class="dhx_wrap_section" >
-                    <div class="dhx_cal_lsection">
-                        <label for="">Recording Automatic</label>
-                    </div>
-                    <div class="dhx_multi_select_control" style="height: 32px;">
-                        <label><input type="checkbox" /></label>
+                    <div class="dhx_wrap_section" >
+                        <div class="dhx_cal_lsection">
+                            <label for="">Recording Automatic</label>
+                        </div>
+                        <div class="dhx_multi_select_control" style="height: 32px;">
+                            <label><input type="checkbox" /></label>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </form>
         <div role="button" aria-label="Delete" tabindex="0" class="dhx_btn_set dhx_left_btn_set dhx_delete_btn_set">
             <div dhx_button="1" class="dhx_delete_btn"></div>
             <div>Delete</div>
@@ -330,11 +348,39 @@
 
     <div id="venue-modal">
         <h2>Search Venue</h2> <hr>
-        <div>Start Date/Time</div><div class="d-flex-650" id="venue-start-time"></div>
-        <div>End Date/Time</div><div class="d-flex-650" id="venue-end-time"></div>
-        <div>Number of Participants</div><div><input type="number" id="number-participants" /></div>
-        <div><button id="search-venue-btn">Search</button>
+        <div class="dhx_widget dhx_custom_layout-rows dhx_widget--bg_white dhx_widget--bordered" style="padding: 20px;">
+            <div class="dhx_form-group  dhx_form-group--inline ">
+                <label for="modal-start-time-input" class="dhx_label">Start Date/Time</label>
+                <div class="dhx_input__wrapper">
+                    <div class="dhx_input__container">
+                        <div class="dhx_input__icon dxi dxi-calendar-today"></div>
+                        <input tabindex="0" type="text" class="dhx_input dhx_input--icon-padding dhx_input--focus" placeholder="Choose a date" id="modal-start-time-input" autocomplete="off" readonly="" aria-label="Date">
+                    </div>
+                </div>
+            </div>
+            <div class="dhx_form-group  dhx_form-group--inline ">
+                <label for="modal-end-time-input" class="dhx_label">End Date/Time</label>
+                <div class="dhx_input__wrapper">
+                    <div class="dhx_input__container">
+                        <div class="dhx_input__icon dxi dxi-calendar-today"></div>
+                        <input tabindex="0" type="text" class="dhx_input dhx_input--icon-padding dhx_input--focus" placeholder="Choose a date" id="modal-end-time-input" autocomplete="off" readonly="" aria-label="Date">
+                    </div>
+                </div>
+            </div>
+            <div class="dhx_form-group  dhx_form-group--inline ">
+                <label for="modal-number-participants" class="dhx_label">Number of Participants</label>
+                <div class="dhx_input__wrapper">
+                    <div class="dhx_input__container">
+                        <input tabindex="0" type="number" class="dhx_input dhx_input--focus" placeholder="Number of Participants" id="modal-number-participants" autocomplete="off" aria-label="Number" min="1">
+                    </div>
+                </div>
+            </div>
+            <div class="justify-end d-flex">
+                <button id="modal-search-btn" type="button" class="dhx_button dhx_button--color_primary dhx_button--size_medium dhx_button--view_flat"><span class="dhx_button__text">Search</span></button>
+            </div>
+        </div>
         <div class="close-venue-modal">&times;</div>
+        <div id="venue-searched-wrap"></div>
     </div>
     <script type="text/javascript" src="assets/js/jquery.min.js"></script>
     <script type="text/javascript" src="assets/js/select_time_ele.js"></script>

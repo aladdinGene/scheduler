@@ -4,6 +4,14 @@ html, body{
     height:100%;
 }
 
+.d-flex{
+    display: flex;
+}
+
+.justify-end{
+    justify-content: flex-end;
+}
+
 .add_event_button{
     position: absolute;
     width: 55px;
@@ -136,7 +144,7 @@ html, body{
 
 .dhx_cal_ltitle{
     margin-bottom: 0;
-    cursor: default;
+    cursor: default !important;
 }
 
 .justify-space{
@@ -203,6 +211,7 @@ html, body{
     background: #FFF;
     z-index: 9;
     padding: 20px;
+    overflow: auto;
 }
 
 .close-venue-modal{
@@ -269,4 +278,63 @@ html, body{
 
 #zoom-wrap{
     display: none;
+}
+
+#venue-modal .dhx_form-group:not(:last-child){
+    margin-right: 20px;
+}
+
+#venue-modal .dhx_form-group{
+    max-width: 350px;
+    margin-bottom: 0;
+}
+
+#venue-modal .dhx_form-group>.dhx_label{
+    max-width: 100%;
+}
+
+#venue-modal .dhx_custom_layout-rows{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+@media(max-width: 1290px){
+    #venue-modal .dhx_custom_layout-rows{
+        display: block;
+    }
+
+    #venue-modal .dhx_form-group:not(:last-child){
+        margin-right: 0px;
+        margin-bottom: 10px;
+    }
+
+    #venue-modal .dhx_form-group>.dhx_label{
+        width: 150px;
+    }
+
+    #venue-modal .dhx_form-group{
+        max-width: 100%;
+    }
+
+    /*#venue-modal #modal-search-btn{
+        float: right;
+    }*/
+}
+
+input.dhx_repeat_date{
+    width: 100px;
+}
+
+.dhx_form_repeat {
+    font-size: 14px;
+    font-family: Roboto,Arial;
+    color: rgba(0,0,0,.8);
+    padding: 0 0 0 5px;
+}
+
+.dhx_form_repeat label {
+    font-size: 14px;
+    font-family: Roboto,Arial;
+    display: inline-block;
+    margin: 0 0 5px 0;
 }
