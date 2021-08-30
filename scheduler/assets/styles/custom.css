@@ -285,40 +285,37 @@ html, body{
 }
 
 #venue-modal .dhx_form-group{
-    max-width: 350px;
+    max-width: 100%;
     margin-bottom: 0;
 }
 
+#venue-modal .dhx_form-group:not(:last-child){
+    margin-right: 0px;
+    margin-bottom: 10px;
+}
+
 #venue-modal .dhx_form-group>.dhx_label{
-    max-width: 100%;
+    /*max-width: 100%;*/
+    width: 150px;
 }
 
 #venue-modal .dhx_custom_layout-rows{
-    display: flex;
-    flex-wrap: wrap;
+    display: block;
 }
 
-@media(max-width: 1290px){
-    #venue-modal .dhx_custom_layout-rows{
+@media(max-width: 600px){
+    #venue-modal .dhx_form-group{
         display: block;
     }
-
-    #venue-modal .dhx_form-group:not(:last-child){
-        margin-right: 0px;
-        margin-bottom: 10px;
+    #venue-modal .dhx_form-group--inline .dhx_input__wrapper{
+        width: 100%;
     }
-
     #venue-modal .dhx_form-group>.dhx_label{
-        width: 150px;
-    }
-
-    #venue-modal .dhx_form-group{
+        text-align: left;
+        margin-bottom: 2px;
+        margin-top: 0;
         max-width: 100%;
     }
-
-    /*#venue-modal #modal-search-btn{
-        float: right;
-    }*/
 }
 
 input.dhx_repeat_date{

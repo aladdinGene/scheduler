@@ -1,0 +1,1700 @@
+<html>
+<head>
+    <title>vSHOC Schedule</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/moment.min.js"></script>
+    <!-- DHTMLX css -->
+    <link type="text/css" href="../css/dhtmlx.5.02.skyblue.css" rel="stylesheet"/>
+    <link type="text/css" href="../css/dhtmlxscheduler_material.css" rel="stylesheet" />
+    <!-- DHTMLX js -->
+    <script src="../js/dhtmlx_input.min.js"></script>
+    <!--only popup is required hence taking the smaller set-->
+      <script type="text/javascript" src="../js/dhtmlxscheduler.js" charset="utf-8"></script>
+      <script type="text/javascript" src="../js/dhtmlxscheduler_units.js" charset="utf-8"></script>
+      <script type="text/javascript" src="../js/dhtmlxscheduler_minical.js" charset="utf-8"></script>
+      <script type="text/javascript" src="../js/dhtmlxscheduler_recurring.js" charset="utf-8"></script>
+      <script type="text/javascript" src="../js/dhtmlxscheduler_editors.js" charset="utf-8"></script>
+      <script type="text/javascript" src="../js/dhtmlxscheduler_tooltip.js" charset="utf-8"></script>
+      <script type="text/javascript" src="../js/dhtmlxscheduler_readonly.js" charset="utf-8"></script>
+      <script type="text/javascript" src="../js/dhtmlxscheduler_pdf.js" charset="utf-8"></script>
+    <!-- Quick info extension -->
+    <script src="../js/dhtmlxscheduler_quick_info.js" charset="utf-8"></script>
+    <!-- Standalone core JavaScript -->
+    <script src="../js/standalone_ui.js"></script>
+    <script type="text/javascript" src="../js/vshoc.js?1474380677"></script>
+    <style type="text/css" media="screen">
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+
+        .add_event_button {
+            position: absolute;
+            width: 55px;
+            height: 55px;
+            background: #ff5722;
+            border-radius: 50px;
+            bottom: 40px;
+            right: 55px;
+            box-shadow: 0 2px 5px 0 rgba(0,0,0,0.3);
+            z-index: 5;
+            cursor: pointer;
+			display:none;
+        }
+
+            .add_event_button:after {
+                background: #000;
+                border-radius: 2px;
+                color: #FFF;
+                content: attr(data-tooltip);
+                margin: 16px 0 0 -137px;
+                opacity: 0;
+                padding: 4px 9px;
+                position: absolute;
+                font-family: "Roboto";
+                font-size: 14px;
+				display:none;
+                transition: all .5s ease-in-out;
+            }
+
+            .add_event_button:hover {
+                background: #ff774c;
+            }
+
+                .add_event_button:hover:after {
+                    opacity: 0.55;
+                    visibility: visible;
+                }
+
+            .add_event_button span:before {
+                content: "";
+                background: #fff;
+                height: 16px;
+                width: 2px;
+                position: absolute;
+                left: 26px;
+                top: 20px;
+            }
+
+            .add_event_button span:after {
+                content: "";
+                height: 2px;
+                width: 16px;
+                background: #fff;
+                position: absolute;
+                left: 19px;
+                top: 27px;
+            }
+        .dhx_scale_bar {
+            font-size: 12px;
+        }
+
+        .dhx_cal_light_rec.dhx_cal_light_wide {
+            width: 60vw;
+        }
+
+        #dhx_minical_icon.dhx_minical_icon {
+            left: 320px !important
+        }
+
+        #dayTabMobile {
+            display: none;
+        }
+
+        div.dhx_cal_tab[name="day_tab"] {
+            display: none;
+        }
+
+        .attendingLabel {
+            display: inline-block;
+        }
+
+        .dhx_cal_navline div.dhx_minical_icon {
+            margin-left: 5px;
+        }
+        #selVenue{ width:100%;}
+
+        /**** Lightbox Css ****/
+        .dhx_cal_light .dhx_cal_ltext {
+            height: auto !important;
+        }
+
+        .dhx_cal_light input[type="text"], .dhx_cal_light select {
+            height: 32px !important;
+            position: relative;
+        }
+
+        .dhx_cal_light button[onclick="populateContactSel()"],
+        .dhx_cal_light button[onclick="populateVenueContactSel()"] {
+            height: 33px;
+        }
+
+        .dhx_cal_light .dhx_section_time.dhx_lightbox_minical select.dhx_lightbox_time_select,
+        .dhx_cal_light .dhx_section_time input.dhx_readonly {
+            width: 90px;
+        }
+
+        .dhtmlx-alert .dhtmlx_popup_text {
+            border: none;
+        }
+
+        .dhx_cal_light.dhx_cal_light_responsive input {
+            margin: 0 3px 5px 0;
+        }
+
+
+        @media screen and (max-width:1199px) {
+            .dhx_cal_tab {
+                width: 60px;
+                font-size: 12px;
+            }
+
+                .dhx_cal_tab[name="week_tab"] {
+                    left: 111px !important;
+                }
+
+                .dhx_cal_tab[name="month_tab"] {
+                    left: 172px !important;
+                }
+
+            #dhx_minical_icon.dhx_minical_icon {
+                left: 235px !important;
+            }
+
+            #tz {
+                left: 270px !important;
+                font-size: 12px;
+            }
+        }
+
+        @media only screen and (max-width: 1000px) {
+            .add_event_button {
+                bottom: 5vw;
+                right: 5vw;
+            }
+
+            div.dhx_cal_tab[name="day_tab"] {
+                display: block;
+            }
+
+            div.dhx_cal_tab[name="unit_tab"] {
+                display: none;
+            }
+        }
+
+        @media screen and (max-width:1023px) {
+            .dhx_cal_light.dhx_cal_light_responsive,
+            .dhx_cal_light.dhx_cal_light_responsive .dhx_cal_lsection,
+            .dhx_cal_light.dhx_cal_light_responsive .dhx_cal_lsection div.dhx_custom_button, .dhx_cal_light.dhx_cal_light_responsive .dhx_cal_radio, .dhx_cal_light.dhx_cal_light_responsive .dhx_cal_template, .dhx_cal_light.dhx_cal_light_responsive .dhx_wrap_section .dhx_section_time select, .dhx_cal_light.dhx_cal_light_responsive select, .dhx_cal_light.dhx_cal_light_responsive textarea {
+                font-size: 14px !important;
+                line-height: 24px !important;
+            }
+
+                .dhx_cal_light.dhx_cal_light_responsive .dhx_section_time select, .dhx_cal_light.dhx_cal_light_responsive select {
+                    min-height: 32px;
+                }
+
+                .dhx_cal_light.dhx_cal_light_responsive .dhx_cal_ltitle span {
+                    font-size: 16px !important;
+                }
+
+                .dhx_cal_light.dhx_cal_light_responsive .dhx_cal_lsection .dhx_custom_button {
+                    padding: 0;
+                    min-width: 100px !important;
+                    min-height: 32px;
+                }
+
+                .dhx_cal_light.dhx_cal_light_responsive .dhx_section_time select.dhx_lightbox_time_select, .dhx_cal_light.dhx_cal_light_responsive select {
+                    background-position-y: 0 !important;
+                    background-size: 30px !important;
+                }
+
+                .dhx_cal_light.dhx_cal_light_responsive input {
+                    width: auto;
+                }
+
+                    .dhx_cal_light.dhx_cal_light_responsive input[id="chkNotify"] {
+                        height: auto;
+                    }
+
+                    .dhx_cal_light.dhx_cal_light_responsive input[type='radio'] {
+                        height: 43px;
+                    }
+
+                .dhx_cal_light.dhx_cal_light_responsive .dhx_wrap_section {
+                    min-height: auto !important;
+                    max-width: 100% !important;
+                    margin: 8px 0;
+                    padding: 0 15px;
+                }
+
+                .dhx_cal_light.dhx_cal_light_responsive .dhx_btn_set {
+                    font-size: 14px;
+                    padding: 0;
+                }
+
+                .dhx_cal_light.dhx_cal_light_responsive .dhx_wrap_section .dhx_section_time select {
+                    margin: 0px !important;
+                }
+
+                .dhx_cal_light.dhx_cal_light_responsive .dhx_wrap_section .dhx_section_time {
+                    min-height: auto !important;
+                }
+
+                .dhx_cal_light.dhx_cal_light_responsive .dhx_cal_lsection div.dhx_custom_button {
+                    height: 32px;
+                }
+
+                .dhx_cal_light.dhx_cal_light_responsive .dhx_custom_button .dhx_custom_button_recurring + div {
+                    line-height: 32px;
+                }
+
+                .dhx_cal_light.dhx_cal_light_responsive .dhx_wrap_section .dhx_cal_lsection,
+                .dhx_cal_light.dhx_cal_light_responsive .dhx_cal_radio {
+                    min-height: auto !important;
+                }
+
+                .dhx_cal_light.dhx_cal_light_responsive .dhx_wrap_section .dhx_section_time {
+                    padding-top: 18px !important;
+                }
+
+                    .dhx_cal_light.dhx_cal_light_responsive .dhx_wrap_section .dhx_section_time .dhx_lightbox_time_select {
+                        width: auto;
+                        padding-left: 0 !important;
+                        background-size: 18px !important;
+                        padding: 0 30px !important;
+                        background-position-y: 5px !important;
+                    }
+
+                .dhx_cal_light.dhx_cal_light_responsive .dhx_section_time select.dhx_lightbox_time_select, .dhx_cal_light.dhx_cal_light_responsive select {
+                    background-position-y: 5px !important;
+                    background-size: 20px !important;
+                }
+
+                .dhx_cal_light.dhx_cal_light_responsive .dhx_wrap_section .dhx_cal_lsection {
+                    padding-top: 10px;
+                }
+
+            .dhx_cal_light .dhx_cal_radio label {
+                top: 0px;
+            }
+
+            .dhx_cal_light.dhx_cal_light_responsive .dhx_form_repeat .dhx_repeat_date, .dhx_cal_light.dhx_cal_light_responsive .dhx_form_repeat .dhx_repeat_text, .dhx_cal_light.dhx_cal_light_responsive .dhx_form_repeat form, .dhx_cal_light.dhx_cal_light_responsive .dhx_form_repeat form select, .dhx_cal_light.dhx_cal_light_responsive .dhx_form_repeat label {
+                font-size: 14px !important;
+                line-height: 24px !important;
+            }
+
+            .dhx_cal_light.dhx_cal_light_responsive .dhx_form_repeat .dhx_repeat_left {
+                height: auto !important;
+            }
+
+            .dhx_cal_light.dhx_cal_light_responsive .dhx_form_repeat form {
+                height: auto !important;
+            }
+
+            .dhx_cal_light.dhx_cal_light_responsive .dhx_form_repeat .dhx_repeat_text {
+                width: 40px !important;
+                height: 32px !important;
+            }
+
+            .dhx_cal_light.dhx_cal_light_responsive .dhx_form_repeat input[type="text"] {
+                top: 0 !important;
+            }
+
+            .dhx_cal_light.dhx_cal_light_responsive .dhx_form_repeat .dhx_repeat_right .dhx_repeat_date {
+                height: 32px !important;
+                margin-left: 10px;
+            }
+        }
+
+        @media screen and (max-width:991px) {
+            /*.dhx_cal_tab[name="week_tab"],
+            .dhx_cal_tab[name="month_tab"],
+            #dhx_minical_icon.dhx_minical_icon,
+            #tz {
+                display: none;
+            }*/
+
+            #dayTabMobile {
+                display: block;
+            }
+
+            #unitTabDsktp {
+                display: none;
+            }
+        }
+
+        @media screen and (max-width:767px) {
+            .dhx_cal_light.dhx_cal_light_responsive input[type="radio"] {
+                height: 40px;
+            }
+
+            .dhx_cal_light.dhx_cal_light_responsive .dhx_section_time select,
+            .dhx_cal_light.dhx_cal_light_responsive select {
+                width: 100%;
+                margin-top: 10px;
+            }
+
+            .dhx_cal_light.dhx_cal_light_responsive .dhx_form_repeat input[type="radio"] {
+                height: 32px !important;
+            }
+
+            .dhx_cal_light.dhx_cal_light_responsive .dhx_cal_ltitle span {
+                font-size: 12px !important;
+                white-space: break-spaces;
+            }
+
+            .dhx_cal_navline div.dhx_minical_icon {
+                width: 35px !important;
+                height: 35px !important;
+                background-size: 60%;
+            }
+        }
+
+        @media screen and (max-width:575px) {
+            .dhx_cal_tab[name="unit_tab"] {
+                width: 45px;
+                font-size: 12px;
+            }
+
+            .dhx_cal_navline .dhx_cal_date {
+                font-size: 14px;
+            }
+
+            .dhx_cal_navline .dhx_cal_today_button {
+                width: 45px;
+                font-size: 12px;
+                right: 35px;
+            }
+
+            .dhx_cal_navline .dhx_cal_next_button {
+                width: 20px;
+                height: 20px;
+                top: 20px;
+                right: 10px;
+            }
+
+            .dhx_cal_navline .dhx_cal_prev_button {
+                width: 20px;
+                height: 20px;
+                top: 20px;
+                right: 85px;
+            }
+
+            .dhx_cal_light.dhx_cal_light_responsive .dhx_wrap_section {
+                padding: 0 10px;
+            }
+
+                .dhx_cal_light .dhx_section_time input.dhx_readonly,
+                .dhx_cal_light.dhx_cal_light_responsive .dhx_wrap_section .dhx_section_time .dhx_lightbox_time_select {
+                    width: 40% !important;
+                    margin-bottom: 10px !important;
+                    margin-left: 10px !important;
+                }
+
+            .dhx_cal_light.dhx_cal_light_responsive .dhx_cal_ltitle span {
+                font-size: 12px !important;
+                white-space: break-spaces;
+                padding: 0;
+                line-height: 30px;
+            }
+
+            .dhx_cal_light.dhx_cal_light_responsive, .dhx_cal_light.dhx_cal_light_responsive .dhx_cal_lsection, .dhx_cal_light.dhx_cal_light_responsive .dhx_cal_lsection div.dhx_custom_button, .dhx_cal_light.dhx_cal_light_responsive .dhx_cal_radio, .dhx_cal_light.dhx_cal_light_responsive .dhx_cal_template, .dhx_cal_light.dhx_cal_light_responsive .dhx_wrap_section .dhx_section_time select, .dhx_cal_light.dhx_cal_light_responsive select, .dhx_cal_light.dhx_cal_light_responsive textarea,
+            .dhx_cal_light.dhx_cal_light_responsive .dhx_form_repeat .dhx_repeat_date, .dhx_cal_light.dhx_cal_light_responsive .dhx_form_repeat .dhx_repeat_text, .dhx_cal_light.dhx_cal_light_responsive .dhx_form_repeat form, .dhx_cal_light.dhx_cal_light_responsive .dhx_form_repeat form select, .dhx_cal_light.dhx_cal_light_responsive .dhx_form_repeat label,
+            .dhx_cal_ltext input[type="text"], .dhx_cal_ltext, .dhx_cal_light_wide .dhx_cal_lsection .dhx_fullday,
+            .dhx_section_time input.dhx_readonly {
+                font-size: 12px !important;
+            }
+
+                .dhx_cal_light.dhx_cal_light_responsive .dhx_form_repeat input[type="radio"] {
+                    height: 22px !important;
+                }
+
+                .dhx_cal_light.dhx_cal_light_responsive .dhx_form_repeat .dhx_repeat_text {
+                    width: 30px !important;
+                }
+
+            .dhtmlx_modal_box.dhtmlx-alert {
+                max-width: 300px;
+                width: 100% !important;
+            }
+
+            .dhtmlx-alert .dhtmlx_popup_text {
+                margin: 0;
+                line-height: 24px;
+            }
+
+            .dhtmlx_modal_box.dhtmlx-alert .dhtmlx_popup_controls {
+                text-align: center;
+                box-sizing: border-box;
+            }
+
+                .dhtmlx_modal_box.dhtmlx-alert .dhtmlx_popup_controls .dhtmlx_popup_button {
+                    float: none;
+                    width: 200px;
+                    margin: 0 0 10px;
+                }
+
+                    .dhtmlx_modal_box.dhtmlx-alert .dhtmlx_popup_controls .dhtmlx_popup_button div {
+                        font-size: 12px;
+                    }
+
+            .dhx_cal_light.dhx_cal_light_responsive .dhx_btn_set div {
+                padding: 5px;
+            }
+
+            .dhx_cal_navline div.dhx_minical_icon {
+                display: none;
+            }
+        }
+
+        @media screen and (max-width:420px) {
+            .dhx_cal_light.dhx_cal_light_responsive .dhx_form_repeat .dhx_repeat_left label {
+                width: 21% !important;
+                font-size: 11px !important;
+            }
+        }
+    </style>
+    <script type="text/javascript" charset="utf-8">
+        //var cb;
+        //var positionid = "68";
+        var incidentids;
+        //var dateformat = "DD/MM/YYYY";
+        var venuescsv; // the venues the current group has access to
+        var venues; // an array of information about the venues
+		var resources;
+        var incidents = []; // an array of information about the incidents
+        //var paramincident = Common_Methods.getParameterByName("incidentid");
+        /*var groupview = typeof paramincident == "undefined" || paramincident == null || paramincident == "" || paramincident == "0" || paramincident.indexOf(',') > -1;*/
+        //var curr_incident = groupview ? parent.Home.Data.IncidentsList.join(',') : paramincident;
+        //var curr_incident = "237";
+        var tz; // holds information about the current time zone
+		var currdate;
+        var manualChanges = true;
+        var sda, eda; // start and end dates
+        var view = "unit";
+        var dataids = ""; // dataids loaded since the scheduler was first opened
+        var PDF_TITLE = "";
+		var compactView = {
+                xy: {
+                    nav_height: 80
+                },
+                config: {
+                    header: {
+                        rows: [
+                            {
+                                cols: [
+                                    "prev",
+                                    "date",
+                                    "next",
+                                ]
+                            },
+                            {
+                                cols: [
+                                    "day",
+                                    "week",
+                                    "month",
+                                    "minicalendar",
+                                    "spacer",
+                                    "today"
+                                ]
+                            }
+                        ]
+                    }
+                },
+                templates: {
+                    month_scale_date: scheduler.date.date_to_str("%D"),
+                    week_scale_date: scheduler.date.date_to_str("%D, %j"),
+                    event_bar_date: function (start, end, ev) {
+                        return "";
+                    }
+
+                }
+            };
+            var fullView = {
+                xy: {
+                    nav_height: 80
+                },
+                config: {
+                    header: [
+                        "unit",
+                        "day",
+                        "week",
+                        "month",
+                        "minicalendar",
+                        "date",
+                        "prev",
+                        "today",
+                        "next"
+                    ]
+                },
+                templates: {
+                    month_scale_date: scheduler.date.date_to_str("%l"),
+                    week_scale_date: scheduler.date.date_to_str("%l, %F %j"),
+                    event_bar_date: function (start, end, ev) {
+                        return "• <b>" + scheduler.templates.event_date(start) + "</b> ";
+                    }
+                }
+            };
+		window.addEventListener("DOMContentLoaded", function () {
+
+            load();
+        });
+        /*var PDF_BRIDGE_URL = window.location.protocol+'//'+window.location.hostname +'/vshoc-admin/boards/dhtmlxscheduler_pdf.ashx';*/
+        // functions to check if a given date is in DST
+        Date.prototype.stdTimezoneOffset = function () {
+            var jan = new Date(this.getFullYear(), 0, 1);
+            var jul = new Date(this.getFullYear(), 6, 1);
+            return Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset());
+        }
+        Date.prototype.dst = function () {
+            return this.getTimezoneOffset() < this.stdTimezoneOffset();
+        }
+        // define startsWith for older browsers
+        if (!String.prototype.startsWith) {
+            String.prototype.startsWith = function (searchString, position) {
+                position = position || 0;
+                return this.substr(position, searchString.length) === searchString;
+            };
+        }
+        // define endsWith for older browsers
+        if (!String.prototype.endsWith) {
+            String.prototype.endsWith = function (searchString, position) {
+                var subjectString = this.toString();
+                if (typeof position !== 'number' || !isFinite(position) || Math.floor(position) !== position || position > subjectString.length) {
+                    position = subjectString.length;
+                }
+                position -= searchString.length;
+                var lastIndex = subjectString.indexOf(searchString, position);
+                return lastIndex !== -1 && lastIndex === position;
+            };
+        }
+        // convert minutes to minutes:hours
+        function minutesHours(minutes) {
+            var hours = Math.floor(minutes / 60);
+            if (minutes < 0)
+                hours = Math.ceil(minutes / 60);
+            var minutes = minutes % 60;
+            return (hours.toString() + ":" + minutes.toString());
+        }
+        // this doesn't work correctly yet
+        function convertToWebEOCLocal(dt, venue) {
+            var nd = new Date();
+            var venuetz = tz.tzminutes;
+            if (tz.dst && dt.dst)
+                venuetz += 60;
+            if (venue != 0) {
+                for (y = 0; y < venues.length; y++) {
+                    if (venues[y].key == venue) {
+                        venuetz = venues[y].tzminutes;
+                        if (venues[y].venue_dst && dt.dst)
+                            venuetz += 60;
+                        break;
+                    }
+                }
+            }
+            nd.setTime(dt.getTime() + venuetz * 60 * 1000);
+            return nd;
+        }
+		function addZero(numberasstring, datetype) {
+			return numberasstring.length < 2 ? "0" + numberasstring : numberasstring;
+		}
+        // convert js date to SQL date string
+        function dtToDatestring(thedate) {
+            return (thedate.getFullYear().toString() + '-' + addZero(thedate.getMonth() + 1) + '-' + addZero(thedate.getDate()) + ' ' + addZero(thedate.getHours().toString()) + ':' +
+                addZero(thedate.getMinutes().toString()));
+        }
+		function resetConfig(old_mode,old_date,mode,dt) {
+				if(dt!=null)
+					currdate=dt;
+                var settings;
+                if (window.innerWidth <= 1000) {
+                    settings = compactView;
+                } else {
+                    settings = fullView;
+                }
+                scheduler.utils.mixin(scheduler.config, settings.config, true);
+                scheduler.utils.mixin(scheduler.templates, settings.templates, true);
+                scheduler.utils.mixin(scheduler.xy, settings.xy, true);
+                return true;
+            }
+		// persist the scheduler data
+		function persistSchedulerData()
+		{
+			var qa = [];
+			var queryID = window.top.Home.Data.GQLQueryID.find(_ => _.name == "schedulers");
+			if (queryID != null && queryID != undefined) {
+				qa.push(queryID.id.toString());
+				window.top.standalone_api.GraphQL.persistGCLdata(null, qa);
+			}
+		}
+        function getEvents(rangeStart, rangeEnd) {
+                window.top.Home.Loading(true);
+				function processSchedulerData(venue,inputRow)
+				{
+					function getResourceById(resourceid)
+					{
+						for(var x=0;x<resources.length;x++)
+							if(resources[x].key==resourceid)
+							{
+								return resources[x].label;
+								break;
+							}
+						return '';
+					}
+					
+					var outputRow = {};
+					outputRow.id=inputRow.reservationguid;
+					outputRow.dataid=inputRow.id;
+					outputRow.positionid=inputRow.positionid;
+					outputRow.text=inputRow.subject;
+					outputRow.host=inputRow.host;
+					outputRow.attending=inputRow.attending;
+					outputRow.description=inputRow.description;
+					outputRow.contactdataid=inputRow.fk_searchcontact;
+					outputRow.contactname=inputRow.contactname;
+					outputRow.reservationtype=inputRow.reservationtype;
+					outputRow.venuename=venue.venue_name;
+					outputRow.venue=venue.id;
+					outputRow.venuecontact=venue.searchcontact?(venue.searchcontact.firstname+' '+venue.searchcontact.familyname+' ('+venue.searchcontact.email1+')'):'';
+					outputRow.venuecontactdataid=venue.searchcontact?venue.searchcontact.id:'';
+					outputRow.othervenue=inputRow.othervenue;
+					outputRow.resource=inputRow.fk_schedulerpredefinedresource;
+					outputRow.resourcename=getResourceById(inputRow.fk_schedulerpredefinedresource);
+					outputRow.donotify=inputRow.donotify==1?true:false;
+					outputRow.incidentid=inputRow.fk_incident;
+					outputRow.rec_type=inputRow.rec_type;
+					outputRow.event_length=inputRow.event_length;
+					outputRow.icsguid=inputRow.icsguid;
+					outputRow.icssequence=inputRow.icssequence;
+					outputRow.start_date=new Date(inputRow.starttime+"Z");
+					outputRow.end_date=new Date(inputRow.endtime+"Z");
+					outputRow.icscreationdate=inputRow.icscreationdate?new Date(inputRow.icscreationdate+"Z"):null;
+					if(outputRow.venue==0)
+						if(window.top.Home.Data.GlobalPosition!=inputRow.positionid)
+							outputRow.readonly=true;
+					return outputRow;
+				}
+				
+				function isValidVenue(venueid)
+				{
+					if(venueid==0)
+						return true;
+					for(var z=0;z < window.top.Home.Data.venuestopositions.length;z++)
+						if(window.top.Home.Data.venuestopositions[z].fk_venue==venueid)
+						{
+							return true;
+							break;
+						}
+					return false;
+				}
+				// form a comma separated list of venues that the current position is assigned to
+				/*let vencsv = '';
+				let vens = window.top.Home.Data.venuestopositions;
+				for(x=0;x<vens.length;x++)
+				{
+					vencsv+=vens[x].fk_venue;
+					if(x!=vens.length-1)
+						vencsv+=',';
+				}*/
+				manualChanges=true;
+				var ss = dtToDatestring(rangeStart);
+				var es = dtToDatestring(rangeEnd);
+				let sq = '{schedulervenues(prevdataid:"0") {venue_name,id,searchcontact{id,firstname,familyname,email1},schedulers'+
+					'(prevdataid:"0",filter:"rec_type=null AND starttime > \\\"'+ss+'\\\":datetime AND endtime < \\\"'+es+'\\\":datetime")'+
+					'{id,reservationguid,positionid,subject,host,attending,description,starttime,endtime,othervenue,fk_searchcontact,contactname,reservationtype,'+
+					  'fk_schedulerpredefinedresource,rec_type,event_length,event_pid,icsguid,icssequence,icscreationdate,donotify,fk_incident}} '+
+					  '@@@@@recurring:schedulervenues(prevdataid:"0") {venue_name,id,searchcontact{id,firstname,familyname,email1},schedulers'+
+					'(prevdataid:"0",filter:"rec_type!=null AND endtime > \\\"'+ss+'\\\":datetime")'+
+					'{id,reservationguid,positionid,subject,host,attending,description,starttime,endtime,othervenue,donotify,fk_searchcontact,contactname,reservationtype,'+
+					  'fk_schedulerpredefinedresource,rec_type,event_length,event_pid,icsguid,icssequence,icscreationdate,donotify,fk_incident}}}';
+					  
+				var qfs = [{
+					"queryFilters": [{
+						"field": "schedulervenues.schedulers.starttime", "op": ">",
+						"value": ss,
+						"type": "datetime"
+					}, {
+						"field": "schedulervenues.schedulers.endtime", "op": "<",
+						"value": es,
+					   "type": "datetime"
+					},
+					{
+						"field": "schedulervenues.schedulers.rec_type", "op": "==",
+						"value": "",
+						"type": "string"
+					}]
+				},
+				{
+					"queryFilters": [{
+						"field": "recurring.schedulers.rec_type", "op": "!=",
+						"value": "",
+						"type": "string"
+					},
+					{
+						"field": "recurring.schedulers.endtime", "op": ">",
+						"value": es,
+						"type": "datetime"
+					}]
+				}];
+			window.top.standalone_api.GraphQL.queryGCL(sq, qfs).then(function (res) {
+			// merge the two datasets
+			var schedulerData = [];
+					$.each(res.data.schedulervenues, function (index, value) {
+						if(value.schedulers && isValidVenue(value.id))
+						   for (var i = 0; i < value.schedulers.length; i++) {
+								 schedulerData.push({});						
+								 schedulerData[schedulerData.length-1]=processSchedulerData(value,value.schedulers[i]);
+						   }
+					});
+					$.each(res.data.recurring, function (index, value) {
+						 if(value.schedulers && isValidVenue(value.id))
+						   for (var i = 0; i < value.schedulers.length; i++) {
+								schedulerData.push({});						
+								schedulerData[schedulerData.length-1]=processSchedulerData(value,value.schedulers[i]);
+						   }
+					});
+				if(schedulerData.length>0)
+				{
+					var permlevel = 0;
+					let pl = window.top.Home.Data.PermLevels?window.top.Home.Data.PermLevels.filter(function (v, i) {
+						return (v["boardname"] == "Tasks" && v["viewname"] == "Schedule");
+					}):[];
+					if (pl.length > 0 && pl[0].permlevel >= 0) {
+						permlevel = pl[0].permlevel;
+					}
+				  if(permlevel==0)
+				  {			
+					  scheduler.config.readonly = true;				  
+				  }
+
+				  scheduler.parse(schedulerData,"json");
+				  manualChanges=false;
+				}
+				window.top.Home.Loading(false);
+			});
+            //}
+        }
+        // enable the user to enter a venue that doesn't exist
+        function toggleOtherVenue(el) {
+
+            if (el.options[el.selectedIndex].text.toLowerCase().includes('other')) {
+                document.getElementById("txtOtherVenue").focus();
+                document.getElementById("otherVenuesControls").style.display = "block";
+            }
+            else {
+                document.getElementById("txtOtherVenue").value = "";
+                document.getElementById("otherVenuesControls").style.display = "none";
+            }
+        }
+        // show the small date picker calendar
+        function show_minical() {
+            if (scheduler.isCalendarVisible()) {
+                scheduler.destroyCalendar();
+            } else {
+                scheduler.renderCalendar({
+                    position: "dhx_minical_icon",
+                    date: scheduler._date,
+                    navigation: true,
+                    handler: function (date, calendar) {
+                        scheduler.setCurrentView(date);
+                        scheduler.destroyCalendar()
+                    }
+                });
+            }
+        }
+        // after the user clicks Search, find contacts
+        /*function populateVenueContactSel() {
+
+            var val = document.getElementById("txtVenueContact").value.toLowerCase();
+            if (val == "") {
+                window.top.standalone_app.OnError("Please enter part of the name you want to search for.", 'danger', 'Required');
+                //alert("Please enter part of the name you want to search for.");
+                document.getElementById("txtVenueContact").focus;
+                return;
+            }
+			let q = '{searchcontacts(prevdataid:"0",sortBy:{field:"firstname",direction:"ASC"},filter:"firstname LIKE \\\"%'+val+'%\\\":string OR familyname LIKE \\\"%'+val+'%\\\":string OR email1 LIKE \\\"%'+val+'%\\\":string"){id,firstname,familyname,email1}}';
+			let qfs = {"queryFilters": [{"field":"prevdataid","op":"==","value":"0","type":"int"},
+				{"orgroup":[{"field":"firstname","op":"includes","value":val,"type":"string"},
+				{"field":"familyname","op":"includes","value":val,"type":"string"},
+				{"field":"email1","op":"==","value":val,"type":"string"}]}]
+			};
+			var data = window.top.standalone_api.GraphQL.queryGCL(q, qfs);
+            //var data = standalone_api.CustomAPICall('hr/contacts/names?query=' + val);
+            $.when(data).done(function (res) {
+                var sel = document.getElementById("selVenueContact").value.toLowerCase();
+                if (res.data.searchcontacts.length > 0) {
+                    document.getElementById("selVenueContact").options.length = 0;
+                    for (var y = 0; y < res.data.searchcontacts.length; y++) {
+                        AddSelectOption("selVenueContact", res.data.searchcontacts[y].firstname+' '+res.data.searchcontacts[y].familyname+' ('+res.data.searchcontacts[y].email1+')', res.data.searchcontacts[y].id, false);
+                    }
+                } else {
+                    window.top.standalone_app.OnError("No contact found. Please type part of the contact's name and click search, or add a new contact in the Contacts board.", 'danger', 'Required');
+                    //alert("No contact found. Please type part of the contact's name and click search, or add a new contact in the Contacts board.")
+                }
+            });
+        }*/
+        /*function processVenueContactResults(res) {
+
+            var sel = document.getElementById("selVenueContact").value.toLowerCase();
+            if (res.results.length > 0) {
+                document.getElementById("selVenueContact").options.length = 0;
+                for (var y = 0; y < res.results.length; y++)
+                    AddSelectOption("selVenueContact", res.results[y].text, res.results[y].value, false);
+            }
+            else
+                window.top.standalone_app.OnError("No contact found. Please type part of the contact's name and click search, or add a new contact in the Contacts board.", 'danger', 'Required');
+            //alert("No contact found. Please type part of the contact's name and click search, or add a new contact in the Contacts board.")
+        }*/
+        // after the user clicks Search, find contacts
+        function populateContactSel() {
+            var val = document.getElementById("txtContact").value.toLowerCase();
+            if (val == "") {
+                window.top.standalone_app.OnError("Please enter part of the name you want to search for.", 'danger', 'Required');
+                //alert("Please enter part of the name you want to search for.");
+                document.getElementById("txtContact").focus;
+                return;
+            }
+			let q = '{searchcontacts(prevdataid:"0",sortBy:{field:"firstname",direction:"ASC"},filter:"firstname LIKE \\\"%'+val+'%\\\":string OR familyname LIKE \\\"%'+val+'%\\\":string OR email1 LIKE \\\"%'+val+'%\\\":string"){id,firstname,familyname,email1}}';
+			let qfs = {"queryFilters": [{"field":"prevdataid","op":"==","value":"0","type":"int"},
+				{"orgroup":[{"field":"firstname","op":"includes","value":val,"type":"string"},
+				{"field":"familyname","op":"includes","value":val,"type":"string"},
+				{"field":"email1","op":"==","value":val,"type":"string"}]}]
+			};
+			var data = window.top.standalone_api.GraphQL.queryGCL(q, qfs);
+            //var data = standalone_api.CustomAPICall('hr/contacts/names?query=' + val);
+            $.when(data).done(function (res) {
+                var sel = document.getElementById("selName").value.toLowerCase();
+                if (res.data.searchcontacts.length > 0) {
+                    document.getElementById("selName").options.length = 0;
+                    for (var y = 0; y < res.data.searchcontacts.length; y++) {
+                        AddSelectOption("selName", res.data.searchcontacts[y].firstname+' '+res.data.searchcontacts[y].familyname+' ('+res.data.searchcontacts[y].email1+')', res.data.searchcontacts[y].id, false);
+                    }
+                } else {
+                    window.top.standalone_app.OnError("No contact found. Please type part of the contact's name and click search, or add a new contact in the Contacts board.", 'danger', 'Required');
+                    //alert("No contact found. Please type part of the contact's name and click search, or add a new contact in the Contacts board.")
+                }
+            });
+        }
+        /*function processResults(res) {
+            var sel = document.getElementById("selName").value.toLowerCase();
+            if (res.results.length > 0) {
+                document.getElementById("selName").options.length = 0;
+                for (var y = 0; y < res.results.length; y++)
+                    AddSelectOption("selName", res.results[y].text, res.results[y].value, false);
+            }
+            else
+                window.top.standalone_app.OnError("No contact found. Please type part of the contact's name and click search, or add a new contact in the Contacts board.", 'danger', 'Required');
+        }*/
+        function deleteEvent(id) {
+            /*var viewDefinition = {
+                "vd": {
+                    "boardInfo": [
+                        {
+                            "Board": "Tasks",
+                            "Table": "Scheduler Table",
+                            "Alias": "sc",
+                            "View": "Schedule"
+                        }],
+                    "fieldInfo": [{ "name": "sc.dataid" }],
+                    "where": "sc.reservationGUID='" + id + "'", "orderby": "", "groupby": ""
+                }
+            };*/
+
+			let q = '{scheduler(reservationguid:"'+id+'"){id}}';
+			let qfs = {"queryFilters": [{"field":"reservationguid","op":"==","value":id,"type":"int"}]};
+            var dataid;
+			var data = window.top.standalone_api.GraphQL.queryGCL(q, qfs);
+            //var data = standalone_api.Queries.ReadData(viewDefinition, Cookie.Read("GlobalUser"), Cookie.Read("GlobalPosition"), curr_incident, null, null);
+            $.when(data).done(function (res) {
+                if (res.data && res.data.scheduler && res.data.scheduler.id) {
+                    dataid = res.data.scheduler.id;
+                    var fn = window.top.standalone_api.Data.DeleteData(dataid, "Tasks", "Scheduler Table", "Schedule", window.top.Home.Data.GlobalPosition, window.top.Home.Data.GlobalUser);
+                    $.when(fn).done(function (res) {
+                        if (typeof res != "undefined") {
+                            showPopUp("The record " + dataid + " could not be deleted. Error message: " + res, "dhx_cal_data");
+                        } else {
+                            showPopUp("The record " + dataid + " was deleted successfully.", "dhx_cal_data");
+                            return;
+                        }
+                    });
+                } else {
+                    //return showPopUp("Unable to delete the event in the database.", "dhx_cal_data");
+                }
+            });
+        }
+        function doDeleteEvent(result) {
+            var res = result;
+            if (res.results) {
+                //bi.DeleteData("Tasks", "Scheduler Table", "Schedule", res.results[0].dataid,"processDeleteRecord",res.results[0].dataid);
+            }
+            //else
+            //	showPopUp("Unable to delete the event in the database.","dhx_cal_data") ;
+        }
+        // function that alerts the system if the record has been saved or not. Pass
+        function processDeleteRecord(result, passThroughValue) {
+            if (result.error) {
+                showPopUp("The record " + passThroughValue + " could not be deleted. Error message: " + result.error, "dhx_cal_data");
+                return;
+            }
+            if (result.success)
+                showPopUp("The record " + passThroughValue + " was deleted successfully.", "dhx_cal_data");
+        }
+
+        // cancel=true will send a cancellation notification
+        function saveEvent(id, ev, dataid, cancel) {
+            // get the contactGUID then save the event, dawg!
+			var pt = {};
+            pt.id = id;
+            pt.ev = ev;
+            pt.dataid = dataid;
+            pt.cancel = cancel;
+            // if the contact was not found, it's not possible to save the meeting
+            //if (result[0].contactGUID) {
+
+                //pt.ContactGUID = result[0].contactGUID;
+                // if notification is on for this event, send it!
+                if (ev.donotify && !ev.rec_type) {
+                    var i;
+                    for (i = 0; i < incidents.length; i++)
+                        if (incidents[i].key == ev.incidentid)
+                            break;
+                    var summary = "<b>Title:</b> " + ev.text +
+                        "<br/><b>Reservation Type:</b> " + ev.reservationtype +
+                        "<br/><b>Venue:</b> " + (ev.venuename.includes('other')? ev.othervenue : ev.venuename) +
+                        "<br/><b>Emergency:</b> " + incidents[i].label +
+                        "<br/><b>Resource:</b> " + (ev.resourcename || "") +
+                        "<br/><b>Description:</b> " + (ev.description || "") +
+                        "<br/><b>Host:</b> " + (ev.host || "") +
+                        "<br/><b>Primary client:</b> " + (ev.contactname || "") +
+                        "<br/><b>Attending:</b> " + (ev.attending || "");
+                    // get the venue contact
+                    y = 0;
+                    for (y = 0; y < venues.length; y++)
+                        if (venues[y].key == ev.venue)
+                            break;
+                    var cd = new Date();
+                    if (ev.icscreationdate)
+                        cd.setTime(ev.icscreationdate.getTime());
+                    sendNotification(pt.ev, result[0].email1, ev.venuename.includes('other')? pt.venuecontactemail : venues[y].venuecontactemail, ev.start_date, ev.end_date, ev.text, summary, ev.venuename.includes('other')? ev.venuecontactname : venues[y].venuecontactname, ev.venuename.includes('other')? ev.venuecontactemail : venues[y].venuecontactemail,
+                        pt.cancel, (ev.start_date.getHours() == 0 && ev.end_date.getHours() == 0), false, ev.icsguid || "", isNumber(ev.icssequence) ? ev.icssequence : 0,
+                        cd, (ev.venuename.includes('other')? ev.othervenue : ev.venuename), pt);
+                }
+                else {
+                    $.when(processSendNotification(null, pt))
+                        .done(function (res) {
+                            processWriteData(res, pt)
+                        });
+                }
+            /*}
+            else
+                showPopUp("Unable to save event. The contactGUID was not found.", "dhx_cal_data");*/
+        }
+        function sendNotification(ev, recipients, cc, startUTC, endUTC, subject, summary, organizerName, organizerEmail, cancel, allDayEvent, recurrence, icsguid, sequence, createdDate, venue, pt) {
+            // leaving this here because its supposed to be a view definition that does not define any view. VSHOC is weird okay??
+            var emailDef = {
+                "board": "Tasks",
+                "view": "Schedule",
+                "viewDefinitionName": "emailDef"
+            };
+
+            var request =
+            {
+                "boardname": "Tasks",
+                "viewname": "Schedule",
+                "viewdefinitionname": "emailDef",
+                "positionId": window.top.Home.Data.GlobalPosition,
+                "recipients": recipients,
+                "cc": cc,
+                "startUTC": startUTC,
+                "endUTC": endUTC,
+                "subject": subject,
+                "summary": summary,
+                "createdDate": createdDate,
+                "location": venue,
+                "organizerName": organizerName,
+                "organizerEmail": organizerEmail,
+                "cancel": cancel,
+                "allDayEvent": allDayEvent,
+                "recurrence": recurrence,
+                "reminder": true,
+                "icsguid": icsguid,
+                "sequence": sequence
+            }
+
+            pt.sequence = sequence;
+            pt.createdDate = createdDate;
+            var data = window.top.standalone_api.Mail.SendMeetingRequest(request, icsguid);
+            $.when(data)
+                .then(function (res) {
+                    return processSendNotification(res, pt);
+                })
+                .then(function (res) {
+                    processWriteData(res, pt)
+                });
+            //httpSendPost("board.ashx?command=SendMeetingRequest", JSON.stringify(emailDef),"processSendNotification",pt);
+        }
+        // we got the contact GUID, now we can proceed to save the schedule item
+        function processSendNotification(result, pt) {
+            var guid = result;
+            var pattern = new RegExp('^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$', 'i');
+            if (guid != null && typeof guid != "undefined" && pattern.test(guid) === false) {
+                showPopUp("Unable to save. Message: " + result, "dhx_cal_data");
+                return;
+            } else {
+                pt.notificationsent = false;
+                if (guid && pt.ev.donotify) {
+                    pt.notificationsent = true;
+                }
+
+                if (pt.cancel && pt.ev.donotify) {
+                    if (guid)
+                        showPopUp("Cancellation notification sent", "dhx_cal_data");
+                    return;
+                }
+                var ValArray = {};
+                ValArray["incidentid"] = 0;
+                ValArray["reservationGUID"] = pt.id.toString();
+                ValArray["subject"] = pt.ev.text == null ? "" : pt.ev.text;
+                ValArray["contactname"] = pt.ev.contactname;
+                ValArray["contactdataid"] = parseInt(pt.ev.contactdataid);
+                ValArray["donotify"] = pt.ev.donotify ? "Yes" : "";
+                ValArray["reservationtype"] = pt.ev.reservationtype;
+                ValArray["meetingincidentid"] = parseInt(pt.ev.incidentid);
+                ValArray["venue"] = parseInt(pt.ev.venue);
+                ValArray["host"] = pt.ev.host == null ? "" : pt.ev.host;
+                ValArray["description"] = pt.ev.description == null ? "" : pt.ev.description;
+                ValArray["starttime"] = pt.ev.start_date; //pt.startLocal;
+                ValArray["endtime"] = pt.ev.end_date; //pt.endLocal;
+                if (pt.ev.resource)
+                    if (pt.ev.resource != "0")
+                        ValArray["resource"] = parseInt(pt.ev.resource);
+                if (isNumber(pt.ev.attending))
+                    ValArray["attending"] = parseInt(pt.ev.attending);
+                if (pt.ev.rec_type)
+                    if (pt.ev.rec_type != "")
+                        ValArray["rec_type"] = pt.ev.rec_type;
+                if (isNumber(pt.ev.event_length))
+                    ValArray["event_length"] = pt.ev.event_length;
+                if (isNumber(pt.ev.event_pid))
+                    ValArray["event_pid"] = pt.ev.event_pid;
+                ValArray["othervenue"] = pt.ev.othervenue || "";
+                ValArray["venuecontactname"] = pt.ev.venuecontactname || "";
+                if (isNumber(pt.ev.venuecontactdataid))
+					ValArray["venuecontactdataid"] = parseInt(pt.ev.venuecontactdataid);
+                if (pt.ev.donotify) {
+                    if (guid) {
+                        ValArray["icsguid"] = guid;
+                        pt.ev.icsguid = guid;
+                    }
+                    if (isNumber(pt.sequence)) {
+                        ValArray["icssequence"] = ++pt.sequence;
+                        pt.ev.icssequence = pt.sequence;
+                    }
+                    if (pt.createdDate) {
+                        ValArray["icscreationdate"] = pt.createdDate;
+                        pt.ev.icscreationdate = pt.createdDate;
+                    }
+                }
+                return window.top.standalone_api.Data.PostData("Tasks", "Schedule", "Scheduler Table", pt.dataid, window.top.Home.Data.GlobalPosition, pt.ev.incidentid, window.top.Home.Data.GlobalUser, ValArray, pt);
+            }
+        }
+
+        function processWriteData(res, pt) {
+            if ($.isNumeric(res) && res > 0) {
+				persistSchedulerData();
+                pt.ev.dataid = res;
+                if (pt.ev.donotify && !pt.ev.rec_type && pt.notificationsent)
+                    showPopUp("Notification sent", "dhx_cal_data");
+            }	// assign the dataid to the event
+            else {
+                showPopUp("Unable to save. Message: " + res, "dhx_cal_data");
+            }
+        }
+        // load the scheduler
+        function load() {
+		window.top.Home.Loading(true);
+			resetConfig();
+		  //document.getElementById('loader').style.display = "block";
+let sq = '{venuestopositions(fk_userrole:"'+window.top.Home.Data.GlobalPosition+'",sortBy:{field:"orderid",direction:"asc"}){permission,schedulervenue{id,venue_name,venue_timezone,venue_dst,searchcontact{firstname,familyname,email1}}}@@@@@'+
+'boardlistitem(name:"WHOScheduleReservationTypes"){id,name,itemvalue,child(sortBy:{field:"ordervalue",direction:"asc"}){id,name,itemvalue,ordervalue,fk_parent}}@@@@@'+
+'resourcestopositions(assignedpositionid:"'+window.top.Home.Data.GlobalPosition+'",sortBy:{field:"orderid",direction:"asc"}){schedulerpredefinedresource{id,resourcetype,title,field1,field2}}}';
+let qfs = [{"queryFilters": [{"field":"assignedpositionid","op":"==",
+            "value":window.top.Home.Data.GlobalPosition,
+            "type":"int"}],
+	"sortBy":[{"field":"orderid","direction":"ASC"}]},
+{"queryFilters": [{"field":"name","op":"==",
+            "value":"WHOScheduleReservationTypes",
+            "type":"string"}]},
+{"queryFilters": [{"field":"assignedpositionid","op":"==",
+            "value":window.top.Home.Data.GlobalPosition,
+            "type":"int"}],
+	"sortBy":[{"field":"orderid","direction":"ASC"}]}
+];
+window.top.standalone_api.GraphQL.queryGCL(sq, qfs).then(function (res) {
+	venues=[];
+	var venuePerms = window.top.Home.Data.venuestopositions;
+	var alreadyexists = false;
+	var venuePerm;
+
+	for(var x = 0;x < res.data.venuestopositions.length; x++)
+	{
+		// check if the user really has access to this venue before adding it
+		alreadyexists = true;
+		for(var z=0;z < venuePerms.length;z++)
+			if(venuePerms[z].fk_venue==res.data.venuestopositions[x].schedulervenue.id)
+			{
+				alreadyexists = false;
+				venuePerm = venuePerms[z].permission;
+			}
+      
+      // is this venue already in the array?
+      for(var y = 0;y < venues.length; y++)
+      {
+          if(venues[y].key==res.data.venuestopositions[x].schedulervenue.id)
+          {
+              alreadyexists=true;
+              if(venues[y].permission<venuePerm)
+                  venues[y].permission=venuePerm;
+			  break;
+          }
+      }
+      if(!alreadyexists)
+      {
+          var tzplusminus=res.data.venuestopositions[x].schedulervenue.venue_timezone.substring(5,6);
+          var tzhours=res.data.venuestopositions[x].schedulervenue.venue_timezone.substring(6,res.data.venuestopositions[x].schedulervenue.venue_timezone.indexOf(":"));
+          var tzmins=res.data.venuestopositions[x].schedulervenue.venue_timezone.substring(res.data.venuestopositions[x].schedulervenue.venue_timezone.indexOf(":")+1,res.data.venuestopositions[x].schedulervenue.venue_timezone.indexOf(")"));
+          var tzminutes;
+          if(tzplusminus=="-")
+              tzminutes=0-(parseInt(tzhours*60)+parseInt(tzmins));
+          else
+              tzminutes=parseInt(tzhours*60)+parseInt(tzmins);
+          venues.push({});
+          venues[venues.length-1].key=res.data.venuestopositions[x].schedulervenue.id;
+          venues[venues.length-1].label=res.data.venuestopositions[x].schedulervenue.venue_name+" "+res.data.venuestopositions[x].schedulervenue.venue_timezone.substring(0,res.data.venuestopositions[x].schedulervenue.venue_timezone.indexOf(")"))+(res.data.venuestopositions[x].schedulervenue.venue_dst=="Yes"?" DST)":")");
+          venues[venues.length-1].permission=venuePerm;
+          venues[venues.length-1].venuecontactname=res.data.venuestopositions[x].schedulervenue.searchcontact.firstname+' '+res.data.venuestopositions[x].schedulervenue.searchcontact.familyname;
+          venues[venues.length-1].venuecontactemail=res.data.venuestopositions[x].schedulervenue.searchcontact.email1;
+          venues[venues.length-1].tzminutes=tzminutes;
+          venues[venues.length-1].venue_dst=res.data.venuestopositions[x].schedulervenue.venue_dst=="Yes"?true:false;
+          //venuescsv+=res.data.venuestopositions[x].schedulervenue.id+",";
+      }
+  }
+  if(venues.length==0)
+  {
+      //document.getElementById('loader').style.display = "none";
+      showPopUp("You're logged in as a position that doesn't have access to any venues.","dhx_cal_data");
+      return;
+  }
+  // set the schedule read only if none of the venues have read/write permmissions
+  var readonly = true;
+  for(var y = 0;y < venues.length; y++)
+      if(venues[y].permission>0)
+      {
+          readonly=false;
+          break;
+      }
+  if(readonly)
+  {
+      scheduler.config.readonly = true;	  
+	  scheduler.config.icons_select = [];
+  }
+  else
+  {
+	scheduler.config.icons_select = ["icon_details"];
+	document.getElementById("add_event_button").style.display="block";
+  }
+  // add "other venue" now
+  /*venues.push({});
+  venues[venues.length-1].key=0;
+  venues[venues.length-1].label="Other venues";
+  venues[venues.length-1].permission=1;*/
+  var reservationtypes = [];
+  if(res.data.boardlistitem && res.data.boardlistitem.child){
+      for(var x = 0;x < res.data.boardlistitem.child.length; x++)
+      {
+          reservationtypes.push({});
+          reservationtypes[reservationtypes.length-1].key=res.data.boardlistitem.child[x].name;
+          reservationtypes[reservationtypes.length-1].label=res.data.boardlistitem.child[x].name;
+      }
+  }
+  resources=[];
+  var alreadyexists = false;
+      // first push an empty resource
+      resources.push({});
+      resources[resources.length-1].key=0;
+      resources[resources.length-1].label="";
+      if(res.data.resourcestopositions){
+        for(var x = 0;x < res.data.resourcestopositions.length; x++)
+          {
+              alreadyexists = false;
+              // is this resource already in the array?
+              for(var y = 0;y < resources.length; y++)
+              {
+                  if(resources[y].key==res.data.resourcestopositions[x].schedulerpredefinedresource.id)
+                  {
+                      alreadyexists=true;
+                      break;
+                  }
+              }
+              if(!alreadyexists)
+              {
+                  resources.push({});
+                  resources[resources.length-1].key=res.data.resourcestopositions[x].schedulerpredefinedresource.id;
+                  resources[resources.length-1].label=res.data.resourcestopositions[x].schedulerpredefinedresource.resourcetype+": "+res.data.resourcestopositions[x].schedulerpredefinedresource.title+" / "+res.data.resourcestopositions[x].schedulerpredefinedresource.field1+" / "+res.data.resourcestopositions[x].schedulerpredefinedresource.field2;
+              }
+          }
+        if(resources.length==1)	
+        {
+            resources.length=0;
+            resources.push({});
+            resources[0].key=0;
+            resources[0].label="You don't have any available resources to assign.";
+        }
+	}
+		// lastly add the incidents
+		incidents.push({});
+  incidents[incidents.length-1].key=-1;
+  incidents[incidents.length-1].label="None";
+  // next add the current incident 
+
+	  if(window.top.Home.Data.GlobalIncidents.split(',').length==1)
+		  for(var x = 0;x < window.top.Home.Data.IncidentsAndLocationList.length; x++)
+		  {
+			  if(window.top.Home.Data.IncidentsAndLocationList[x].id==window.top.Home.Data.GlobalIncidents)
+			  {
+				  incidents.push({});
+				  incidents[incidents.length-1].key=window.top.Home.Data.IncidentsAndLocationList[x].id;
+				  incidents[incidents.length-1].label=window.top.Home.Data.IncidentsAndLocationList[x].name;
+				  break;
+			  }
+		  }
+		
+	 let incs = window.top.Home.Data.IncidentsAndLocationList;
+	 incs.sort(function (a, b) { return a.name == b.name ? 0 : a.name < b.name ? -1 : 1; });
+      for(var x = 0;x < incs.length; x++)
+      {
+          
+          if(window.top.Home.Data.GlobalIncidents.split(',').length>1 || incs[x].id != window.top.Home.Data.GlobalIncidents) 
+          {
+              incidents.push({});
+              incidents[incidents.length-1].key=incs[x].id;
+              incidents[incidents.length-1].label=incs[x].name;
+          }
+      }
+	  //document.getElementById('loader').style.display = "none";
+	  initScheduler(venues, incidents, reservationtypes, resources);
+	  persistSchedulerData();
+	});
+
+
+        }
+
+        function initScheduler(venues, incidents, reservationtypes, resources) {
+            // now configure the scheduler
+			document.querySelector(".add_event_button").addEventListener("click", function () {
+                scheduler.addEventNow();
+            });
+            var firsthour = 7;
+            var lasthour = 20;
+            // define the labels
+            scheduler.locale.labels.unit_tab = "Day"
+            scheduler.locale.labels.section_subject = '<span id="lblTitle">*Title</span>';
+            scheduler.locale.labels.section_venue = '<span id="lblLocation">*Location</span>';
+            scheduler.locale.labels.section_host = "Host";
+            scheduler.locale.labels.section_contact = '<span id="lblClient">*Primary Client</span>';
+            scheduler.locale.labels.section_reservationtype = '<span id="lblType">*Meeting Type</span>';
+            scheduler.locale.labels.section_resource = "Resource";
+            scheduler.locale.labels.section_incident = "Incident";
+
+            var tzd = new Date();
+            var tzo = tzd.getTimezoneOffset();
+			currdate = new Date();
+
+            scheduler.templates.lightbox_header = function (start, end, event) {
+                return "Edit " + event.text;
+            }
+            document.getElementById("tz").innerHTML = "Your time zone is GMT " + (tzo < 0 ? "+" : "") + minutesHours(0 - tzo);
+
+            // define the custom lightbox editors
+            scheduler.form_blocks["contact_editor"] = {
+                render: function (sns) {
+                    var ce = $('#contact_editor').prop('outerHTML');
+                    return ce;
+                },
+                set_value: function (node, value, ev) {
+                    node.childNodes[7].checked = ev.donotify || false;
+                    if (typeof ev.contactname != "undefined") {
+                        node.childNodes[1].value = "";
+                        node.childNodes[5].options.length = 0;
+                        node.childNodes[5].options[node.childNodes[5].options.length] = new Option(ev.contactname, ev.contactdataid, false, true);
+                    }
+                    else {
+                        node.childNodes[5].options.length = 0;
+                        node.childNodes[5].options[node.childNodes[5].options.length] = new Option("Type part of name and click Search", 0, false, true);
+                    }
+                },
+                get_value: function (node, ev) {
+                    if (node.childNodes[5].options[node.childNodes[5].selectedIndex])
+                        ev.contactdataid = node.childNodes[5].options[node.childNodes[5].selectedIndex].value;
+                    ev.donotify = node.childNodes[7].checked;
+                    if (node.childNodes[5].options[node.childNodes[5].selectedIndex])
+                        return node.childNodes[5].options[node.childNodes[5].selectedIndex].text;
+                    else
+                        return null;
+                },
+                focus: function (node) {
+                    node.childNodes[1].focus();
+                }
+            };
+            scheduler.form_blocks["venue_editor"] = {
+                render: function (sns) {
+                    var ve = $('#venue_editor').prop('outerHTML');
+                    return ve;
+                },
+                set_value: function (node, value, ev) {
+                    var selVenue = node.childNodes[1];
+                    var txtOtherVenue = node.childNodes[3].childNodes[1].childNodes[2];
+					var otherVenuesControls = node.childNodes[3];
+					var venuename;
+					for (var x = 0; x < venues.length; x++) {
+                            if (venues[x].key == ev.venue)
+                            {
+								venuename=venues[x].label;
+								break;
+							}
+                        }
+                    if (venuename && venuename.includes('other')) {
+						otherVenuesControls.style.display="block";
+                        txtOtherVenue.value = ev.othervenue || "";
+                    }
+                    if (selVenue.options.length == 0)
+                        for (var x = 0; x < venues.length; x++) {
+                            if (venues[x].permission > 0)
+                                selVenue.options[selVenue.options.length] = new Option(venues[x].label, venues[x].key, false, ev.venue == venues[x].key);
+                        }
+                    if (selVenue.options.length > 0)
+                        for (var x = 0; x < selVenue.options.length; x++)
+                            if (ev.venue == selVenue.options[x].value) {
+                                selVenue.selectedIndex = x;
+                                break;
+                            }
+                },
+                get_value: function (node, ev) {
+                    var selVenue = node.childNodes[1];
+                    var txtOtherVenue = node.childNodes[3].childNodes[1].childNodes[2];
+                    ev.othervenue = txtOtherVenue.value || null;
+                    ev.venuename = selVenue.options[selVenue.selectedIndex].text;
+                    if (selVenue.options[selVenue.selectedIndex])
+                        return selVenue.options[selVenue.selectedIndex].value;
+                    else
+                        return null;
+                },
+                focus: function (node) {
+                    var selVenue = node.childNodes[1];
+                    selVenue.focus();
+                }
+            };
+            scheduler.form_blocks["host_editor"] = {
+                render: function (sns) {
+                    var he = $('#host_editor').prop('outerHTML');
+                    return he;
+                },
+                set_value: function (node, value, ev) {
+                    node.childNodes[1].value = ev.host || "";
+                    node.childNodes[3].children[0].value = ev.attending || "";
+                },
+                get_value: function (node, ev) {
+                    ev.attending = node.childNodes[3].children[0].value || null;
+                    return node.childNodes[1].value || null;
+                },
+                focus: function (node) {
+                    node.childNodes[1].focus();
+                }
+            };
+            scheduler.form_blocks["resource_editor"] = {
+                render: function (sns) {
+                    var re = $('#resource_editor').prop('outerHTML');
+                    return re;
+                },
+                set_value: function (node, value, ev) {
+                    var selResource = node.childNodes[1];
+                    if (selResource.options.length == 0) {
+                        for (var x = 0; x < resources.length; x++)
+                            selResource.options[selResource.options.length] = new Option(resources[x].label, resources[x].key, false, ev.resource == resources[x].key);
+                    }
+                    if ((typeof ev.resource == "undefined" || ev.resource == null) && selResource.options.length > 0)
+                        selResource.selectedIndex = 0;
+                    else if (selResource.options.length > 0)
+                        for (var x = 0; x < selResource.options.length; x++)
+                            if (ev.resource == selResource.options[x].value) {
+                                selResource.selectedIndex = x;
+                                break;
+                            }
+                },
+                get_value: function (node, ev) {
+                    var selResource = node.childNodes[1];
+                    if (selResource.selectedIndex > 0) {
+                        if (selResource.options[selResource.selectedIndex])
+                            ev.resourcename = selResource.options[selResource.selectedIndex].text;
+                        return selResource.value || null;
+                    }
+                    else
+                        return null;
+                },
+                focus: function (node) {
+                    var selResource = node.childNodes[1];
+                    selResource.focus();
+                }
+            }
+			scheduler.config.responsive_lightbox = true;
+            scheduler.config.lightbox.sections = [
+                { name: "subject", height: 21, map_to: "text", type: "textarea", focus: true },
+                { name: "contact", height: 50, type: "contact_editor", map_to: "contactname" },
+                { name: "reservationtype", height: 21, type: "radio", options: reservationtypes, map_to: "reservationtype" },
+                { name: "incident", height: 21, type: "select", options: incidents, map_to: "incidentid" },
+                { name: "venue", height: 60, type: "venue_editor", map_to: "venue" },
+                { name: "host", height: 21, type: "host_editor", map_to: "host" },
+                { name: "resource", height: 21, type: "resource_editor", options: resources, map_to: "resource" },
+                { name: "description", height: 40, type: "textarea", map_to: "description" },
+                { name: "recurring", height: 115, type: "recurring", map_to: "rec_type", button: "recurring" },
+                { name: "time", height: 72, type: "calendar_time", map_to: "auto" }
+            ];
+
+            scheduler.createUnitsView({ name: "unit", property: "venue", list: venues });
+            if (window.top.Home.Data.GlobalDateFormat == "DD/MM/YYYY") {
+                scheduler.config.repeat_date = "%d/%m/%Y";
+                scheduler.templates.calendar_time = scheduler.date.date_to_str("%d/%m/%Y");
+                scheduler.config.api_date = "%d/%m/%Y %H:%i";
+                format = scheduler.date.date_to_str("%d-%m-%Y %H:%i");
+                header_format = scheduler.date.date_to_str("%d %M %Y");
+            }
+            else {
+                scheduler.config.repeat_date = "%m/%d/%Y";
+                scheduler.templates.calendar_time = scheduler.date.date_to_str("%m/%d/%Y");
+                scheduler.config.api_date = "%m/%d/%Y %H:%i";
+                format = scheduler.date.date_to_str("%m-%d-%Y %H:%i");
+                header_format = scheduler.date.date_to_str("%M %d %Y");
+            }
+            scheduler.config.first_hour = firsthour;
+            scheduler.config.last_hour = lasthour;
+            scheduler.config.multi_day = true;
+            scheduler.config.full_day = true;
+            scheduler.config.details_on_create = true;
+            scheduler.config.details_on_dblclick = true;
+            scheduler.config.edit_on_create = true;
+            scheduler.config.fix_tab_position = false;
+            scheduler.config.time_step = 15;
+            scheduler.config.event_duration = 60;
+
+            scheduler.templates.week_date = function (start, end) {
+                return header_format(start) + " – " +
+                    header_format(scheduler.date.add(end, -1, "day"));
+            };
+            scheduler.templates.month_date = function (date) {
+                var dateToStr_func = scheduler.date.date_to_str(scheduler.config.month_date);
+                return dateToStr_func(date);
+            };
+
+            scheduler.templates.day_date = function (date) {
+                return header_format(date);
+            };
+			scheduler.attachEvent("onBeforeViewChange", function(old_mode,old_date,mode,dt){
+                resetConfig(old_mode,old_date,mode,dt);
+                return true;
+            });
+            // fires after the lightbox closes. Does not actually save the event in the DB
+            scheduler.attachEvent("onEventSave", function (id, ev, is_new) {
+                if (ev.text == "" || ev.contactdataid < 1 || typeof ev.reservationtype == "undefined" || typeof ev.venue == "undefined") {
+                    document.getElementById("lblTitle").innerHTML = '<font color="red">*Title</font>';
+                    document.getElementById("lblLocation").innerHTML = '<font color="red">*Location</font>';
+                    document.getElementById("lblClient").innerHTML = '<font color="red">*Primary Client</font>';
+                    document.getElementById("lblType").innerHTML = '<font color="red">*Meeting Type</font>';
+                    if(!ev.venuename.includes('other'))
+						return false;
+                }
+                if (ev.venuename.includes('other') && (typeof ev.othervenue == "undefined" || ev.othervenue == null || ev.othervenue == "")) {
+                    document.getElementById("lblOther").innerHTML = '<font color="red">*Other venue:</font>';
+                    return false;
+                }
+                document.getElementById("lblTitle").innerHTML = '*Title';
+                document.getElementById("lblLocation").innerHTML = '*Location';
+                document.getElementById("lblClient").innerHTML = '*Primary Client';
+                document.getElementById("lblType").innerHTML = '*Meeting Type';
+                document.getElementById("lblOther").innerHTML = '*Other venue:';
+                return true;
+            })
+
+            // the next two event handlers save the event in the DB
+            scheduler.attachEvent("onEventAdded", function(id,ev){
+                if(!manualChanges)
+                    saveEvent(id,ev,null,false);
+                return true;
+            });
+            scheduler.attachEvent("onEventChanged", function(id,ev){
+                if(!manualChanges)
+                    if(id.toString().indexOf("#")==-1){
+                        saveEvent(id,ev,ev.dataid,false);
+                    }
+                return true;
+            });
+            // before the event is deleted, send a cancellation notification
+            // we do this before it's deleted because we can't access it afterwards
+            scheduler.attachEvent("onBeforeEventDelete", function(id,e){
+                var ev = scheduler.getEvent(id);
+                saveEvent(id,ev,ev.dataid,true);
+                return true;
+            });
+            // delete the event in the DB after it's deleted in the scheduler
+            scheduler.attachEvent("onEventDeleted", function(id){
+                if(!manualChanges)
+                    deleteEvent(id);
+                return true;
+            });
+            /*scheduler.attachEvent("onBeforeViewChange", function(old_mode,old_date,mode,dt){
+                updateView(old_mode,old_date,mode,dt);
+                return true;
+            });*/
+            scheduler.attachEvent("onBeforeEventChanged", function (ev, e, is_new, original) {
+				let rd = scheduler.config.repeat_date;
+                if (original.readonly) {
+                    showPopUp("You don't have permission to edit this meeting", "dhx_cal_data");
+                    return false;
+                }
+                // block users from moving meetings to other venues
+                /*if (ev.venue == 0 && original.venue != 0 && !is_new) {
+                    showPopUp('You can\'t drag and drop a meeting to "Other venues". Double-click it to edit it instead.', "dhx_cal_data");
+                    return false;
+                }*/
+                for (var y = 0; y < venues.length; y++) {
+                    if (ev.venue == venues[y].key) {
+                        if (venues[y].permission == 0) {
+							window.top.standalone_app.OnError("You don't have permission to schedule meetings in the venue " + venues[y].label);
+                            //showPopUp("You don't have permission to schedule meetings in the venue " + venues[y].label, "dhx_cal_data");
+                            return false;
+                            break;
+                        }
+                    }
+                }
+                return true;
+            });
+			scheduler.templates.quick_info_content = function(start, end, ev){ 
+				return "<b>Title:</b> " + ev.text +
+                    "<br/><b>Venue:</b> " + (ev.venue == 0 ? ev.othervenue : ev.venuename) +
+                    "<br/><b>Description:</b> " + (ev.description || "") +
+                    "<br/><b>Primary client:</b> " + (ev.contactname || "");
+			};
+            scheduler.templates.tooltip_text = function (start, end, event) {
+                // first get the incident name
+				let incidentname = "";
+                for (var y = 0; y < incidents.length; y++)
+                    if (incidents[y].key == event.incidentid)
+					{
+						incidentname = incidents[y].label;
+                        break;
+					}
+
+                return "<b>Title:</b> " + event.text +
+                    "<br/><b>Reservation Type:</b> " + event.reservationtype +
+                    "<br/><b>Venue:</b> " + (event.venuename.includes('other')? event.othervenue : event.venuename) +
+                    "<br/><b>Start time:</b> " + format(start) +
+                    "<br/><b>End time:</b> " + format(end) +
+                    "<br/><b>Incident:</b> " + (incidentname)+
+                    "<br/><b>Resource:</b> " + (event.resourcename || "") +
+                    "<br/><b>Description:</b> " + (event.description || "") +
+                    "<br/><b>Host:</b> " + (event.host || "") +
+                    "<br/><b>Primary client:</b> " + (event.contactname || "") +
+                    "<br/><b>Attending:</b> " + (event.attending || "");
+            };
+
+            viewChangeFunc();
+            window.onresize = viewChangeFunc;
+
+            function viewChangeFunc() {
+                if ($(window).width() <= 1000) {
+                    scheduler.init('scheduler_here', currdate, "day");
+                } else {
+                    scheduler.init('scheduler_here', currdate, "unit");
+                }
+            }
+
+           
+            sda = new Date();
+            sda.setDate(sda.getDate() - 35);
+            eda = new Date();
+            eda.setDate(eda.getDate() + 65);
+            getEvents(sda, eda, null);
+			window.top.Home.Loading(false);
+        }
+
+        function updateView(old_mode, old_date, mode, newDt) {
+            // only proceed if this wasn't thrown in the middle of some changes
+            /*if(!manualChanges)
+            {
+                manualChanges=true;
+                // only proceed if the date is outside the current range
+                if(newDt<sda||newDt>eda||(mode=="month"&&old_mode!="month"))
+                {
+                    sda = new Date(newDt.getTime());
+                    eda.setDate(sda.getDate()+65);
+                    sda.setDate(sda.getDate()-35);
+                    getEvents(sda,eda);
+                }
+                manualChanges=false;
+            }*/
+        }
+    </script>
+</head>
+<body>
+    <div id="scheduler_here" class="dhx_cal_container" style='width:100%; height:100%;'>
+        <div class="dhx_cal_navline">
+            <div class="dhx_cal_prev_button"></div>
+            <div class="dhx_cal_next_button"></div>
+            <div class="dhx_cal_today_button"></div>
+            <div class="dhx_cal_date"></div>
+            <div class="dhx_cal_tab" style="left:139px;" name="week_tab" onBeforeViewChange="changeUnit('week')"></div>
+            <div id="unitTabDsktp" class="dhx_cal_tab" style="left:50px;" name="unit_tab" onBeforeViewChange="changeUnit('unit')"></div>
+            <div id="dayTabMobile" class="dhx_cal_tab" style="left:50px;" name="day_tab" onBeforeViewChange="changeUnit('day')"></div>
+            <div class="dhx_cal_tab" style="left:228px;" name="month_tab" onBeforeViewChange="changeUnit('month')"></div>
+            <div class="dhx_minical_icon" id="dhx_minical_icon" onclick="show_minical()"></div>
+            <div id="tz" style="left:360px;"></div>
+        </div>
+        <div class="dhx_cal_header">
+        </div>
+        <div class="dhx_cal_data" id="dhx_cal_data">
+        </div>
+    </div>
+    <div class="add_event_button" id="add_event_button" data-tooltip="Create new event"><span></span></div>
+    <div id="dhtmlx_element_placeholder" style="display:none">
+        <div class="dhx_cal_ltext" id="contact_editor" style="height:55px;">
+            <input name="txtContact" id="txtContact" type="text" />
+            <button onclick="populateContactSel()">Search</button>
+            <select name="selName" id="selName" style="width:260px">
+                <option value="0">Type part of name and click Search</option>
+            </select>
+            <div style="float:right">
+				<input name="chkNotify" id="chkNotify" type="checkbox" />
+				<label for="chkNotify">Notify</label>
+			</div>
+        </div>
+        <div class="dhx_cal_ltext" id="venue_editor" style="height:80px;">
+            <select name="selVenue" id="selVenue" onchange="toggleOtherVenue(this)"></select>
+            <div id="otherVenuesControls" style="display:none">
+                <span>
+                    <span id="lblOther">Other venue:</span><input name="txtOtherVenue" id="txtOtherVenue" type="text">
+                </span>
+            </div>
+        </div>
+        <div class="dhx_cal_ltext" id="host_editor" style="height:23px;">
+            <input name="txtHost" id="txtHost" type="text" />
+            <div class="attendingLabel"># Attending: <input name="txtattending" id="txtattending" type="text" /></div>
+        </div>
+        <div class="dhx_cal_ltext" id="resource_editor" style="height:23px;">
+            <select name="selResource" id="selResource"  style="width:340px"></select>
+        </div>
+    </div>
+</body>
+</html>

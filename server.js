@@ -24,8 +24,12 @@ app.use((req, res, next) => {
     next();
 });
 
-app.get('*', (req, res) => {
+app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname + '/index.html'));
+});
+
+app.get('/task', (req, res) => {
+    res.sendFile(path.join(__dirname + '/scheduler/TasksSchedule.html'));
 });
 
 // Start the server.

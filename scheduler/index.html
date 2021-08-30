@@ -350,20 +350,38 @@
         <h2>Search Venue</h2> <hr>
         <div class="dhx_widget dhx_custom_layout-rows dhx_widget--bg_white dhx_widget--bordered" style="padding: 20px;">
             <div class="dhx_form-group  dhx_form-group--inline ">
-                <label for="modal-start-time-input" class="dhx_label">Start Date/Time</label>
+                <label for="modal-start-time-input" class="dhx_label">Start Date</label>
                 <div class="dhx_input__wrapper">
                     <div class="dhx_input__container">
                         <div class="dhx_input__icon dxi dxi-calendar-today"></div>
-                        <input tabindex="0" type="text" class="dhx_input dhx_input--icon-padding dhx_input--focus" placeholder="Choose a date" id="modal-start-time-input" autocomplete="off" readonly="" aria-label="Date">
+                        <input tabindex="0" type="text" class="dhx_input dhx_input--icon-padding dhx_input--focus" placeholder="Choose a date" id="modal-start-date-input" autocomplete="off" readonly="" aria-label="Date">
                     </div>
                 </div>
             </div>
             <div class="dhx_form-group  dhx_form-group--inline ">
-                <label for="modal-end-time-input" class="dhx_label">End Date/Time</label>
+                <label for="modal-start-time-input" class="dhx_label">Start Time</label>
                 <div class="dhx_input__wrapper">
                     <div class="dhx_input__container">
                         <div class="dhx_input__icon dxi dxi-calendar-today"></div>
-                        <input tabindex="0" type="text" class="dhx_input dhx_input--icon-padding dhx_input--focus" placeholder="Choose a date" id="modal-end-time-input" autocomplete="off" readonly="" aria-label="Date">
+                        <input tabindex="0" type="text" class="dhx_input dhx_input--icon-padding dhx_input--focus" placeholder="Choose a time" id="modal-start-time-input" autocomplete="off" readonly="" aria-label="Time">
+                    </div>
+                </div>
+            </div>
+            <div class="dhx_form-group  dhx_form-group--inline ">
+                <label for="modal-end-time-input" class="dhx_label">End Date</label>
+                <div class="dhx_input__wrapper">
+                    <div class="dhx_input__container">
+                        <div class="dhx_input__icon dxi dxi-calendar-today"></div>
+                        <input tabindex="0" type="text" class="dhx_input dhx_input--icon-padding dhx_input--focus" placeholder="Choose a date" id="modal-end-date-input" autocomplete="off" readonly="" aria-label="Date">
+                    </div>
+                </div>
+            </div>
+            <div class="dhx_form-group  dhx_form-group--inline ">
+                <label for="modal-end-time-input" class="dhx_label">End Time</label>
+                <div class="dhx_input__wrapper">
+                    <div class="dhx_input__container">
+                        <div class="dhx_input__icon dxi dxi-calendar-today"></div>
+                        <input tabindex="0" type="text" class="dhx_input dhx_input--icon-padding dhx_input--focus" placeholder="Choose a time" id="modal-end-time-input" autocomplete="off" readonly="" aria-label="Time">
                     </div>
                 </div>
             </div>
@@ -371,7 +389,7 @@
                 <label for="modal-number-participants" class="dhx_label">Number of Participants</label>
                 <div class="dhx_input__wrapper">
                     <div class="dhx_input__container">
-                        <input tabindex="0" type="number" class="dhx_input dhx_input--focus" placeholder="Number of Participants" id="modal-number-participants" autocomplete="off" aria-label="Number" min="1">
+                        <input tabindex="0" type="number" class="dhx_input dhx_input--focus" placeholder="Number of Participants" id="modal-number-participants" autocomplete="off" aria-label="Number" min="1" value="1">
                     </div>
                 </div>
             </div>

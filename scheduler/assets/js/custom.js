@@ -3,12 +3,12 @@ window.addEventListener("DOMContentLoaded", function(){
     // =================================== Custom Calendar ==============================
 // {
     const modal_calendar1 = new dhx.Calendar(null, {
-        timePicker: true,
+        // timePicker: true,
         value: new Date(),
         css: "dhx_widget--bordered"
     });
     modal_calendar1.events.on("change", function (date) {
-        $("#modal-start-time-input").val(modal_calendar1.getValue())
+        $("#modal-start-date-input").val(modal_calendar1.getValue())
     });
 
     const modal_popup1 = new dhx.Popup({
@@ -17,11 +17,12 @@ window.addEventListener("DOMContentLoaded", function(){
     modal_popup1.attach(modal_calendar1);
 
     const modal_calendar2 = new dhx.Calendar(null, {
-        timePicker: true,
+        // timePicker: true,
+        value: new Date(),
         css: "dhx_widget--bordered"
     });
     modal_calendar2.events.on("change", function (date) {
-        $("#modal-end-time-input").val(modal_calendar2.getValue())
+        $("#modal-end-date-input").val(modal_calendar2.getValue())
     });
 
     const modal_popup2 = new dhx.Popup({
@@ -29,20 +30,64 @@ window.addEventListener("DOMContentLoaded", function(){
     });
     modal_popup2.attach(modal_calendar2);
 
-    modal_calendar1.link(modal_calendar2);
+    // modal_calendar1.link(modal_calendar2);
+
+    const modal_start_date_input = document.getElementById("modal-start-date-input");
+
+    // on input click we show popup
+    modal_start_date_input.addEventListener("click", function () {
+        modal_popup1.show(modal_start_date_input);
+    });
+
+    const modal_end_date_input = document.getElementById("modal-end-date-input");
+
+    // on input click we show popup
+    modal_end_date_input.addEventListener("click", function () {
+        modal_popup2.show(modal_end_date_input);
+    });
+
+    var d = new Date();
+    const modal_time1 = new dhx.Timepicker(null, {
+        // timePicker: true,
+        value: `${d.getHours() + 1}:00`,
+        css: "dhx_widget--bordered"
+    });
+    modal_time1.events.on("change", function (date) {
+        $("#modal-start-time-input").val(modal_time1.getValue())
+    });
+
+    const modal_t_popup1 = new dhx.Popup({
+        css: "dhx_widget--border-shadow"
+    });
+    modal_t_popup1.attach(modal_time1);
+
+    const modal_time2 = new dhx.Timepicker(null, {
+        value: "18:00",
+        css: "dhx_widget--bordered"
+    });
+    modal_time2.events.on("change", function (date) {
+        $("#modal-end-time-input").val(modal_time2.getValue())
+    });
+
+    const modal_t_popup2 = new dhx.Popup({
+        css: "dhx_widget--border-shadow"
+    });
+    modal_t_popup2.attach(modal_time2);
+
+    // modal_calendar1.link(modal_calendar2);
 
     const modal_start_time_input = document.getElementById("modal-start-time-input");
 
     // on input click we show popup
     modal_start_time_input.addEventListener("click", function () {
-        modal_popup1.show(modal_start_time_input);
+        modal_t_popup1.show(modal_start_time_input);
     });
 
     const modal_end_time_input = document.getElementById("modal-end-time-input");
 
     // on input click we show popup
     modal_end_time_input.addEventListener("click", function () {
-        modal_popup2.show(modal_end_time_input);
+        modal_t_popup2.show(modal_end_time_input);
     });
 // }
 
